@@ -3,4 +3,5 @@
 if((NOT CONFIG_ZMK_SPLIT) OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
   target_sources(app PRIVATE src/behaviors/behavior_os_mode.c)
   target_sources(app PRIVATE src/behaviors/behavior_app_tab.c)
+  target_sources(app PRIVATE src/keymap_migrate.c)
 endif()
