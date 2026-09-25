@@ -113,11 +113,12 @@
             mac-mode;
         };
 
-        // Mac: Alt+Tab → Cmd+Tab(Altを押している間は切替画面を開いたまま)
-        mac_tab: mac_tab {
-            compatible = "cline46,behavior-mac-tab";
+        // アプリ切替用 Tab。Mac の Cmd+Tab と同じ指(Ctrl の位置+Tab)で切り替える
+        //   Windows: Ctrl+Tab → Alt+Tab / Mac: Alt+Tab → Cmd+Tab(修飾キーを離すまで切替画面を開いたまま)
+        app_tab: app_tab {
+            compatible = "cline46,behavior-app-tab";
             #binding-cells = <0>;
-            display-name = "Mac Tab";
+            display-name = "App Tab";
         };
 
         // Mac モードでは Ctrl の位置のキーが Cmd を送る。
@@ -204,7 +205,7 @@
         default_layer {
             bindings = <
 &kp ESC      &kp Q  &kp W  &kp E      &kp R        &kp T                                           &kp Y      &kp U       &kp I      &kp O    &kp P          &kp ESC
-&kp TAB      &kp A  &kp S  &kp D      &kp F        &kp G                                           &kp H      &kp J       &kp K      &kp L    &kp MINUS      &kp TAB
+&app_tab     &kp A  &kp S  &kp D      &kp F        &kp G                                           &kp H      &kp J       &kp K      &kp L    &kp MINUS      &app_tab
 &kp LSHIFT   &kp Z  &kp X  &kp C      &kp V        &kp B                                           &kp N      &kp M       &kp COMMA  &kp DOT  &lt 3 SLASH    &kp RSHIFT
              &kp LGUI      &kp LALT   &kp LCTRL    &lt 4 LANG2  &lt 1 SPACE  &lt 5 LANG1    &kp BSPC   &lt 2 RET                         &kp CAPS       &kp DEL
             >;
@@ -271,7 +272,7 @@
             display-name = "Mac";
             bindings = <
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
-&mac_tab   &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &mac_tab
+&app_tab   &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &app_tab
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
            &kp LCTRL       &trans  &kp LGUI  &trans  &trans  &trans    &mac_bspc  &trans                  &trans  &mac_del
             >;

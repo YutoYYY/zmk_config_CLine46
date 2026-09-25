@@ -1,5 +1,0 @@
-description: Tab key that turns a held Alt+Tab into Cmd+Tab (for Mac mode)
-
-compatible: "cline46,behavior-mac-tab"
-
-include: zero_param.yaml

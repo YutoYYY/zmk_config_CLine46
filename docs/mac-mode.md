@@ -70,11 +70,20 @@ OS 側の修飾キー入れ替えは不要で、キーボードだけで完結�
 | M | Win(スタートメニュー) | アプリ一覧(4本指ピンチと同じ。⌃⌥⌘A を送るので、下の初回設定で割り当てる) |
 | , | Win + Tab(タスクビュー) | Mission Control(4本指スワイプアップと同じ。Control + ↑) |
 
+## アプリ切替は Windows / Mac とも同じ指で
+
+Space 寄りの親指キー(Ctrl の位置)を押したまま Tab でアプリを切り替えます。Mac の ⌘ + Tab と同じ指の動きです。
+
+- Windows: Ctrl の位置 + Tab → Alt + Tab(Ctrl を離すまで切替画面が開いたまま。Shift も押すと逆順)
+- Mac: Ctrl の位置は ⌘ なのでそのまま ⌘ + Tab
+- Alt + Tab はどちらのモードでも今までどおり使えます
+- Windows でブラウザのタブを切り替える Ctrl + Tab は、Layer 2(Enter 長押し)の「前のタブ / 次のタブ」を使います
+
 ## Mac 特有の機能の使い方(Mac モード時)
 
 | やりたいこと | 押し方 |
 |---|---|
-| アプリ切替 | Alt を押したまま Tab(Windows と同じ。Alt を離すまで一覧が出たまま) |
+| アプリ切替 | Ctrl の位置(⌘)を押したまま Tab。Alt + Tab でも可(離すまで一覧が出たまま) |
 | 同じアプリの別ウィンドウへ | かな(L5)+ W |
 | アプリExposé(今のアプリのウィンドウ一覧) | かな(L5)+ C |
 | Mission Control(4本指スワイプアップ) | かな(L5)+ , |
@@ -108,5 +117,5 @@ OS 側の修飾キー入れ替えは不要で、キーボードだけで完結�
 
 - Layer 0〜12 すべて、これまでどおり DYAStudio で中身を変更できます。
 - Mac 用レイヤー(7〜12)は、▽(透過)にしたキーは下の Windows 用レイヤーのキーがそのまま使われます。Windows 側に新しいショートカットを足したら、必要に応じて Mac 用レイヤーの同じ位置にも Mac 版を置いてください。
-- 「Windows Mode」「Mac Mode」「Mac Tab」「Mac Left」などの独自キーも DYAStudio のキー一覧から選べます。
+- 「Windows Mode」「Mac Mode」「App Tab」「Mac Left」などの独自キーも DYAStudio のキー一覧から選べます。
 - Layer 11「Mac L3」は、Mac モード本体が使っている位置(Tab と Backspace の位置)を Layer 3 のキー(BT CLR_ALL、Studio Unlock)に戻すためのものです。Layer 3 のその2か所を変えたら、Layer 11 も合わせて変えてください。

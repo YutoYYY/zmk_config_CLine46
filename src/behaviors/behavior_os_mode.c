@@ -29,6 +29,8 @@ struct behavior_os_mode_config {
 
 static uint8_t mac_mode = 0;
 
+bool cline46_os_mode_is_mac(void) { return mac_mode; }
+
 static void apply_mode(void) {
     if (mac_mode) {
         zmk_keymap_layer_activate(MAC_LAYER);
