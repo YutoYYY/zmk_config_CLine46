@@ -10,9 +10,10 @@
 // レイヤー構成
 //   0〜6 : 共通(Windows基準)。DYAStudio で編集してきた配列を書き写したもの
 //   7    : Macモード(Windows/Macモード切替キーでON/OFF。状態は電源を切っても保持)
-//   8〜11: Macモード中に、対応するレイヤーの上に自動で重なる差し替え用レイヤー
-//          8 = L2(矢印・マウス)、9 = L4(メディア・F)、10 = L5(ウィンドウ操作)、11 = L3(BT)
-// 7〜11 も DYAStudio で中身を編集できる。▽(透過)にしたキーは下のレイヤーのキーになる
+//   8〜12: Macモード中に、対応するレイヤーの上に自動で重なる差し替え用レイヤー
+//          8 = L2(矢印・マウス)、9 = L4(メディア・F)、10 = L5(ウィンドウ操作)、11 = L3(BT)、
+//          12 = L6(マウス)
+// 7〜12 も DYAStudio で中身を編集できる。▽(透過)にしたキーは下のレイヤーのキーになる
 // ---------------------------------------------------------------------------
 #define MAC 7
 
@@ -57,6 +58,11 @@
         mac_bt {
             if-layers = <3 MAC>;
             then-layer = <11>;
+        };
+
+        mac_mouse {
+            if-layers = <6 MAC>;
+            then-layer = <12>;
         };
     };
 
@@ -282,13 +288,14 @@
             >;
         };
 
-        // 8: Mac版 L2(矢印・Home/End・マウス用修飾・スクショ)
+        // 8: Mac版 L2(矢印・Home/End・マウス用修飾・戻る/進む・スクショ)
+        // Safari はマウスの戻る/進むボタンに反応しないので ⌘[ / ⌘] を送る
         mac_nav_layer {
             display-name = "Mac L2";
             bindings = <
 &trans  &trans  &trans     &mac_up    &trans     &trans                       &kp LGUI    &trans  &trans  &trans  &trans            &trans
 &trans  &trans  &mac_left  &mac_down  &mac_right &trans                       &trans      &trans  &trans  &trans  &trans            &trans
-&trans  &trans  &mac_home  &trans     &mac_end   &trans                       &kp LCTRL   &trans  &trans  &trans  &kp LG(LS(N5))    &trans
+&trans  &trans  &mac_home  &trans     &mac_end   &trans                       &kp LCTRL   &kp LG(LBKT)  &trans  &kp LG(RBKT)  &kp LG(LS(N5))    &trans
         &trans  &trans     &trans     &trans     &trans  &trans      &trans   &trans                          &trans  &trans
             >;
         };
@@ -323,6 +330,17 @@
 &bt BT_CLR_ALL  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
 &trans          &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
                 &trans  &trans  &trans  &trans  &trans  &trans      &studio_unlock  &trans                &trans  &trans
+            >;
+        };
+
+        // 12: Mac版 L6(戻る/進むを ⌘[ / ⌘] に)
+        mac_mouse_layer {
+            display-name = "Mac L6";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans        &trans  &trans        &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans        &trans  &trans        &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &kp LG(LBKT)  &trans  &kp LG(RBKT)  &trans  &trans
+        &trans  &trans  &trans  &trans  &trans  &trans      &trans    &trans                                      &trans  &trans
             >;
         };
     };
