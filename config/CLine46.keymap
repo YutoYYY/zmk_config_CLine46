@@ -79,8 +79,9 @@
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             display-name = "Mac Dictation";
-            wait-ms = <30>;
-            tap-ms = <30>;
+            // 速すぎると macOS が2回押しと認識しないので、間隔を空ける
+            wait-ms = <120>;
+            tap-ms = <50>;
             bindings = <&macro_tap &kp LCTRL &kp LCTRL>;
         };
 
