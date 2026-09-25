@@ -259,12 +259,13 @@
             >;
         };
 
-        // Win系ショートカット(T=絵文字 G=デスクトップ表示 X=範囲スクショ V=クリップボード履歴 は今回追加)
+        // Win系ショートカット(T=絵文字 G=デスクトップ表示 X=範囲スクショ V=クリップボード履歴
+        // Q=タスクマネージャー Z=全画面(F11) は追加分)
         layer_5 {
             bindings = <
-&trans  &trans  &trans         &kp RG(UP)    &trans          &kp LG(DOT)                  &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
+&trans  &kp LC(LS(ESC))  &trans  &kp RG(UP)  &trans          &kp LG(DOT)                  &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
 &trans  &trans  &kp RG(LEFT)   &kp RG(DOWN)  &kp RG(RIGHT)   &kp LG(D)                    &trans  &kp RS(RG(LEFT))  &kp RS(RG(DOWN))  &kp RS(RG(RIGHT))  &trans  &trans
-&trans  &trans  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &trans            &kp RG(TAB)       &trans             &trans  &trans
+&trans  &kp F11  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &trans            &kp RG(TAB)       &trans             &trans  &trans
         &trans  &trans         &trans        &trans          &trans  &trans      &trans   &trans                                        &trans             &trans
             >;
         };
@@ -313,12 +314,13 @@
         };
 
         // 10: Mac版 L5(ウィンドウ操作は Rectangle の「推奨」ショートカット前提)
+        //     Q=強制終了 W=同じアプリの次のウィンドウ(⌘`) Z=フルスクリーン C=アプリExposé
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
-&trans  &trans  &trans                  &kp LC(LA(RET))    &trans              &kp LC(LG(SPACE))       &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
+&trans  &kp LG(LA(ESC))  &kp LG(GRAVE)  &kp LC(LA(RET))    &trans              &kp LC(LG(SPACE))       &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
 &trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(LEFT)))  &kp LC(LA(BSPC))    &kp LC(LA(LG(RIGHT)))  &trans  &trans
-&trans  &trans  &kp LC(LG(LS(N4)))      &none              &mac_clipboard      &trans                  &trans  &trans                &kp LC(UP)          &trans                 &trans  &trans
+&trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &mac_clipboard      &trans                  &trans  &trans                &kp LC(UP)          &trans                 &trans  &trans
         &trans  &trans                  &trans             &trans              &trans  &trans    &trans  &trans                                                &trans                 &trans
             >;
         };
