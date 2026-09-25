@@ -85,19 +85,6 @@
             bindings = <&macro_tap &kp LCTRL &kp LCTRL>;
         };
 
-        // Mac: クリップボード履歴(macOS 26以降の Spotlight。Cmd+Space → Cmd+4)
-        mac_clipboard: mac_clipboard {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            display-name = "Mac Clipboard";
-            wait-ms = <30>;
-            tap-ms = <30>;
-            bindings
-                = <&macro_tap &kp LG(SPACE)>
-                , <&macro_wait_time 300>
-                , <&macro_tap &kp LG(N4)>
-                ;
-        };
     };
 
     behaviors {
@@ -320,7 +307,7 @@
             bindings = <
 &trans  &kp LG(LA(ESC))  &kp LG(GRAVE)  &kp LC(LA(RET))    &trans              &kp LC(LG(SPACE))       &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
 &trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(LEFT)))  &kp LC(LA(BSPC))    &kp LC(LA(LG(RIGHT)))  &trans  &trans
-&trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &mac_clipboard      &trans                  &trans  &kp LC(LA(LG(A)))            &kp LC(UP)          &trans                 &trans  &trans
+&trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &kp LC(LA(LG(V)))     &trans                  &trans  &kp LC(LA(LG(A)))            &kp LC(UP)          &trans                 &trans  &trans
         &trans  &trans                  &trans             &trans              &trans  &trans    &trans  &trans                                                &trans                 &trans
             >;
         };
