@@ -85,6 +85,20 @@
             bindings = <&macro_tap &kp LCTRL &kp LCTRL>;
         };
 
+        // Mac: アプリ一覧(4本指ピンチと同じ。macOS 26以降の Spotlight。Cmd+Space → Cmd+1)
+        mac_apps: mac_apps {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "Mac Apps";
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings
+                = <&macro_tap &kp LG(SPACE)>
+                , <&macro_wait_time 300>
+                , <&macro_tap &kp LG(N1)>
+                ;
+        };
+
         // Mac: クリップボード履歴(macOS 26以降の Spotlight。Cmd+Space → Cmd+4)
         mac_clipboard: mac_clipboard {
             compatible = "zmk,behavior-macro";
@@ -265,7 +279,7 @@
             bindings = <
 &trans  &kp LC(LS(ESC))  &trans  &kp RG(UP)  &trans          &kp LG(DOT)                  &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
 &trans  &trans  &kp RG(LEFT)   &kp RG(DOWN)  &kp RG(RIGHT)   &kp LG(D)                    &trans  &kp RS(RG(LEFT))  &kp RS(RG(DOWN))  &kp RS(RG(RIGHT))  &trans  &trans
-&trans  &kp F11  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &trans            &kp RG(TAB)       &trans             &trans  &trans
+&trans  &kp F11  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &kp LGUI          &kp RG(TAB)       &trans             &trans  &trans
         &trans  &trans         &trans        &trans          &trans  &trans      &trans   &trans                                        &trans             &trans
             >;
         };
@@ -314,13 +328,13 @@
         };
 
         // 10: Mac版 L5(ウィンドウ操作は Rectangle の「推奨」ショートカット前提)
-        //     Q=強制終了 W=同じアプリの次のウィンドウ(⌘`) Z=フルスクリーン C=アプリExposé
+        //     Q=強制終了 W=同じアプリの次のウィンドウ(⌘`) Z=フルスクリーン C=アプリExposé M=アプリ一覧(4本指ピンチ)
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
 &trans  &kp LG(LA(ESC))  &kp LG(GRAVE)  &kp LC(LA(RET))    &trans              &kp LC(LG(SPACE))       &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
 &trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(LEFT)))  &kp LC(LA(BSPC))    &kp LC(LA(LG(RIGHT)))  &trans  &trans
-&trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &mac_clipboard      &trans                  &trans  &trans                &kp LC(UP)          &trans                 &trans  &trans
+&trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &mac_clipboard      &trans                  &trans  &mac_apps             &kp LC(UP)          &trans                 &trans  &trans
         &trans  &trans                  &trans             &trans              &trans  &trans    &trans  &trans                                                &trans                 &trans
             >;
         };
