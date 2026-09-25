@@ -6,6 +6,16 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
+// ---------------------------------------------------------------------------
+// レイヤー構成
+//   0〜6 : 共通(Windows基準)。DYAStudio で編集してきた配列を書き写したもの
+//   7    : Macモード(Windows/Macモード切替キーでON/OFF。状態は電源を切っても保持)
+//   8〜11: Macモード中に、対応するレイヤーの上に自動で重なる差し替え用レイヤー
+//          8 = L2(矢印・マウス)、9 = L4(メディア・F)、10 = L5(ウィンドウ操作)、11 = L3(BT)
+// 7〜11 も DYAStudio で中身を編集できる。▽(透過)にしたキーは下のレイヤーのキーになる
+// ---------------------------------------------------------------------------
+#define MAC 7
+
 &mt {
     flavor = "balanced";
     quick-tap-ms = <0>;
@@ -26,12 +36,60 @@
         };
     };
 
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        mac_nav {
+            if-layers = <2 MAC>;
+            then-layer = <8>;
+        };
+
+        mac_fn {
+            if-layers = <4 MAC>;
+            then-layer = <9>;
+        };
+
+        mac_win {
+            if-layers = <5 MAC>;
+            then-layer = <10>;
+        };
+
+        mac_bt {
+            if-layers = <3 MAC>;
+            then-layer = <11>;
+        };
+    };
+
     macros {
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
             bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
             label = "TO_LAYER_0";
+        };
+
+        // Mac: 音声入力(システム設定で「Controlキーを2回押す」にしておく)
+        mac_dictation: mac_dictation {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "Mac Dictation";
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&macro_tap &kp LCTRL &kp LCTRL>;
+        };
+
+        // Mac: クリップボード履歴(macOS 26以降の Spotlight。Cmd+Space → Cmd+4)
+        mac_clipboard: mac_clipboard {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "Mac Clipboard";
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings
+                = <&macro_tap &kp LG(SPACE)>
+                , <&macro_wait_time 300>
+                , <&macro_tap &kp LG(N4)>
+                ;
         };
     };
 
@@ -44,6 +102,106 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
         };
+
+        // Windows/Mac モード切替
+        os_win: os_win {
+            compatible = "cline46,behavior-os-mode";
+            #binding-cells = <0>;
+            display-name = "Windows Mode";
+            layer = <MAC>;
+        };
+
+        os_mac: os_mac {
+            compatible = "cline46,behavior-os-mode";
+            #binding-cells = <0>;
+            display-name = "Mac Mode";
+            layer = <MAC>;
+            mac-mode;
+        };
+
+        // Mac: Alt+Tab → Cmd+Tab(Altを押している間は切替画面を開いたまま)
+        mac_tab: mac_tab {
+            compatible = "cline46,behavior-mac-tab";
+            #binding-cells = <0>;
+            display-name = "Mac Tab";
+        };
+
+        // Mac モードでは Ctrl の位置のキーが Cmd を送る。
+        // Windows の Ctrl+矢印 / Ctrl+Backspace などを Mac の同じ動作に変換する
+        mac_left: mac_left {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Left";
+            bindings = <&kp LEFT>, <&kp LA(LEFT)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        mac_right: mac_right {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Right";
+            bindings = <&kp RIGHT>, <&kp LA(RIGHT)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        mac_up: mac_up {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Up";
+            bindings = <&kp UP>, <&kp LA(UP)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        mac_down: mac_down {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Down";
+            bindings = <&kp DOWN>, <&kp LA(DOWN)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        // Home = 行頭(Cmd+←)、Ctrl+Home = 文書の先頭(Cmd+↑)
+        mac_home: mac_home {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Home";
+            bindings = <&kp LG(LEFT)>, <&kp LG(UP)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        // End = 行末(Cmd+→)、Ctrl+End = 文書の末尾(Cmd+↓)
+        mac_end: mac_end {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac End";
+            bindings = <&kp LG(RIGHT)>, <&kp LG(DOWN)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        mac_bspc: mac_bspc {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Backspace";
+            bindings = <&kp BSPC>, <&kp LA(BSPC)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        mac_del: mac_del {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac Delete";
+            bindings = <&kp DEL>, <&kp LA(DEL)>;
+            mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        // Alt+F4 → Cmd+Q
+        mac_f4: mac_f4 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            display-name = "Mac F4";
+            bindings = <&kp F4>, <&kp LG(Q)>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+        };
     };
 
     keymap {
@@ -51,70 +209,120 @@
 
         default_layer {
             bindings = <
-&kp TAB      &kp Q     &kp W      &kp E     &kp R                &kp T                                            &kp Y     &kp U   &kp I       &kp O          &kp P       &kp LEFT_BRACKET
-&kp LCTRL    &kp A     &kp S      &kp D     &kp F                &kp G                                            &kp H     &kp J   &kp K       &kp L          &kp MINUS   &kp RIGHT_BRACKET
-&kp LSHIFT   &kp Z     &kp X      &kp C     &kp V                &kp B                                            &kp N     &kp M   &kp COMMA   &kp DOT        &mo 3       &kp RSHIFT
-             &kp ESC   &kp LGUI   &kp LALT  &lt 2 INT_MUHENKAN   &lt 1 SPACE   &mt LSFT INT_HENKAN      &kp RET   &kp BSPC                      &kp NUMBER_9   &kp DEL  
+&kp ESC      &kp Q  &kp W  &kp E      &kp R        &kp T                                           &kp Y      &kp U       &kp I      &kp O    &kp P          &kp ESC
+&kp TAB      &kp A  &kp S  &kp D      &kp F        &kp G                                           &kp H      &kp J       &kp K      &kp L    &kp MINUS      &kp TAB
+&kp LSHIFT   &kp Z  &kp X  &kp C      &kp V        &kp B                                           &kp N      &kp M       &kp COMMA  &kp DOT  &lt 3 SLASH    &kp RSHIFT
+             &kp LGUI      &kp LALT   &kp LCTRL    &lt 4 LANG2  &lt 1 SPACE  &lt 5 LANG1    &kp BSPC   &lt 2 RET                         &kp CAPS       &kp DEL
             >;
         };
 
-        
         layer_1 {
             bindings = <
-&kp CARET   &kp EQUAL      &kp NUMBER_7   &kp NUMBER_8   &kp NUMBER_9   &kp AT_SIGN                            &kp LEFT_PARENTHESIS    &kp DOUBLE_QUOTES   &kp RIGHT_PARENTHESIS   &kp SEMI    &kp EXCLAMATION   &kp QMARK
-&kp MINUS   &kp PLUS       &kp NUMBER_4   &kp NUMBER_5   &kp NUMBER_6   &kp HASH                               &kp LEFT_BRACKET        &kp SINGLE_QUOTE    &kp RIGHT_BRACKET       &kp COLON   &kp AMPERSAND     &kp PIPE
-&kp SLASH   &kp ASTERISK   &kp NUMBER_1   &kp NUMBER_2   &kp NUMBER_3   &kp UNDERSCORE                         &kp SLASH               &kp BACKSLASH       &kp COMMA               &kp DOT     &kp DOLLAR        &kp PERCENT
-            &kp ESC        &kp NUMBER_0   &kp DOT        &trans         &trans           &trans      &kp RET   &kp BSPC                                                            &kp DEL     &trans 
+&trans  &kp SEMI  &kp COLON  &kp LPAR  &kp RPAR  &kp AT                         &kp EXCL   &kp N7  &kp N8  &kp N9  &kp EQUAL  &trans
+&trans  &kp SQT   &kp DQT    &kp LBKT  &kp RBKT  &kp HASH                       &kp PRCNT  &kp N4  &kp N5  &kp N6  &kp PLUS   &trans
+&trans  &kp BSLH  &kp GRAVE  &kp LBRC  &kp RBRC  &kp AMPS                       &kp N0     &kp N1  &kp N2  &kp N3  &kp STAR   &trans
+        &trans    &trans     &trans    &trans    &trans    &trans     &trans    &trans                     &trans  &trans
             >;
         };
-
 
         MOUSE {
             bindings = <
-&trans   &trans   &kp F7   &kp F8   &kp F9   &kp F10                         &kp LC(Y)   &kp LC(C)        &kp LC(V)        &kp LC(X)         &kp LC(P)   &trans
-&trans   &trans   &kp F4   &kp F5   &kp F6   &kp F11                         &kp LC(Z)   &mkp MB1         &kp UP_ARROW     &mkp MB2          &kp LC(F)   &trans
-&trans   &trans   &kp F1   &kp F2   &kp F3   &kp F12                         &kp LC(A)   &kp LEFT_ARROW   &kp DOWN_ARROW   &kp RIGHT_ARROW   &trans      &trans
-         &trans   &trans   &trans   &trans   &trans    &trans      &kp RET   &kp BSPC                                      &kp HOME          &kp END
+&trans  &trans  &kp PG_UP  &kp UP    &kp PG_DN  &trans                          &kp LCTRL   &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
+&trans  &trans  &kp LEFT   &kp DOWN  &kp RIGHT  &trans                          &kp LSHIFT  &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
+&trans  &trans  &kp HOME   &trans    &kp END    &kp C_AC_SEARCH                 &kp LGUI    &mkp MB4         &trans    &mkp MB5     &kp PSCRN   &trans
+        &trans  &trans     &trans    &trans     &trans   &trans      &trans     &trans                                 &trans       &trans
             >;
         };
-
 
         SCROLL {
             bindings = <
-&bt BT_CLR       &trans   &trans         &trans         &trans         &trans                                &trans   &trans   &trans   &trans   &trans   &trans
-&bt BT_CLR_ALL   &trans   &bt BT_SEL 4   &trans         &trans         &trans                                &trans   &trans   &trans   &trans   &trans   &trans
-&trans           &trans   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &trans                                &trans   &trans   &trans   &trans   &trans   &trans
-                 &trans   &bt BT_SEL 0   &trans         &trans         &trans   &trans      &studio_unlock   &trans                     &trans   &trans  
+&bt BT_CLR      &trans  &os_win  &trans  &trans  &trans                        &trans  &bt BT_SEL 3  &trans        &bt BT_SEL 4  &trans  &trans
+&bt BT_CLR_ALL  &os_mac &trans   &trans  &trans  &trans                        &trans  &bt BT_SEL 1  &bt BT_SEL 0  &bt BT_SEL 2  &trans  &trans
+&trans          &trans  &trans   &trans  &trans  &trans                        &trans  &bt BT_PRV    &trans        &bt BT_NXT    &trans  &trans
+                &trans  &trans   &trans  &trans  &trans  &trans      &studio_unlock  &trans                        &trans        &trans
             >;
         };
-
 
         layer_4 {
             bindings = <
-&trans   &trans   &trans         &trans         &trans         &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &bt BT_SEL 4   &trans         &trans         &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-         &trans   &bt BT_SEL 0   &trans         &trans         &trans   &trans      &trans   &trans                     &trans   &trans 
+&trans  &kp RG(L)  &kp C_REWIND  &kp C_STOP  &kp C_FF    &kp C_VOL_UP                     &trans  &kp F7  &kp F8  &kp F9  &kp F12  &trans
+&trans  &kp CAPS   &kp C_PREV    &kp C_PP    &kp C_NEXT  &kp C_VOL_DN                     &trans  &kp F4  &kp F5  &kp F6  &kp F11  &trans
+&trans  &kp RG(H)  &kp F21       &none       &kp F20     &kp LALT                         &trans  &kp F1  &kp F2  &kp F3  &kp F10  &trans
+        &trans     &trans        &trans      &trans      &trans    &trans      &trans     &trans                  &trans  &trans
             >;
         };
 
-
+        // Win系ショートカット(T=絵文字 G=デスクトップ表示 X=範囲スクショ V=クリップボード履歴 は今回追加)
         layer_5 {
             bindings = <
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-         &trans   &trans   &trans   &trans   &trans   &trans      &trans   &trans                     &trans   &trans       
+&trans  &trans  &trans         &kp RG(UP)    &trans          &kp LG(DOT)                  &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
+&trans  &trans  &kp RG(LEFT)   &kp RG(DOWN)  &kp RG(RIGHT)   &kp LG(D)                    &trans  &kp RS(RG(LEFT))  &kp RS(RG(DOWN))  &kp RS(RG(RIGHT))  &trans  &trans
+&trans  &trans  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &trans            &kp RG(TAB)       &trans             &trans  &trans
+        &trans  &trans         &trans        &trans          &trans  &trans      &trans   &trans                                        &trans             &trans
             >;
         };
-
 
         layer_6 {
             bindings = <
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-         &trans   &trans   &trans   &trans   &trans   &trans      &trans   &trans                     &trans   &trans 
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans     &trans     &trans     &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &mkp LCLK  &mkp MCLK  &mkp RCLK  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &mkp MB4   &trans     &mkp MB5   &trans  &trans
+        &trans  &trans  &trans  &trans  &trans  &trans      &trans    &trans                          &trans     &trans
+            >;
+        };
+
+        // 7: Macモード本体。Win/Ctrl の位置を入れ替え(Ctrl の位置 = Cmd)、単語削除・Alt+Tab を変換
+        mac_layer {
+            display-name = "Mac";
+            bindings = <
+&trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
+&mac_tab   &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &mac_tab
+&trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
+           &kp LCTRL       &trans  &kp LGUI  &trans  &trans  &trans    &mac_bspc  &trans                  &trans  &mac_del
+            >;
+        };
+
+        // 8: Mac版 L2(矢印・Home/End・マウス用修飾・スクショ)
+        mac_nav_layer {
+            display-name = "Mac L2";
+            bindings = <
+&trans  &trans  &trans     &mac_up    &trans     &trans                       &kp LGUI    &trans  &trans  &trans  &trans            &trans
+&trans  &trans  &mac_left  &mac_down  &mac_right &trans                       &trans      &trans  &trans  &trans  &trans            &trans
+&trans  &trans  &mac_home  &trans     &mac_end   &trans                       &kp LCTRL   &trans  &trans  &trans  &kp LG(LS(N5))    &trans
+        &trans  &trans     &trans     &trans     &trans  &trans      &trans   &trans                          &trans  &trans
+            >;
+        };
+
+        // 9: Mac版 L4(ロック・音声入力・明るさ・Alt+F4)
+        mac_fn_layer {
+            display-name = "Mac L4";
+            bindings = <
+&trans  &kp LC(LG(Q))   &trans       &trans  &trans       &trans                    &trans  &trans   &trans  &trans  &trans  &trans
+&trans  &trans          &trans       &trans  &trans       &trans                    &trans  &mac_f4  &trans  &trans  &trans  &trans
+&trans  &mac_dictation  &kp C_BRI_DN &trans  &kp C_BRI_UP &trans                    &trans  &trans   &trans  &trans  &trans  &trans
+        &trans          &trans       &trans  &trans       &trans  &trans    &trans  &trans                   &trans  &trans
+            >;
+        };
+
+        // 10: Mac版 L5(ウィンドウ操作は Rectangle の「推奨」ショートカット前提)
+        mac_win_layer {
+            display-name = "Mac L5";
+            bindings = <
+&trans  &trans  &trans                  &kp LC(LA(RET))    &trans              &kp LC(LG(SPACE))       &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
+&trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(LEFT)))  &kp LC(LA(BSPC))    &kp LC(LA(LG(RIGHT)))  &trans  &trans
+&trans  &trans  &kp LC(LG(LS(N4)))      &none              &mac_clipboard      &trans                  &trans  &trans                &kp LC(UP)          &trans                 &trans  &trans
+        &trans  &trans                  &trans             &trans              &trans  &trans    &trans  &trans                                                &trans                 &trans
+            >;
+        };
+
+        // 11: Mac版 L3。Macモード本体(7)が上書きするキー位置を L3 のキーに戻す
+        mac_bt_layer {
+            display-name = "Mac L3";
+            bindings = <
+&trans          &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
+&bt BT_CLR_ALL  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
+&trans          &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans  &trans      &studio_unlock  &trans                &trans  &trans
             >;
         };
     };
