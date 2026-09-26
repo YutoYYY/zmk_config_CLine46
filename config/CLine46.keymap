@@ -108,6 +108,16 @@
                 ;
         };
 
+        // 左ダブルクリック(Layer 2 右手)
+        dbl_click: dbl_click {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "Double Click";
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&macro_tap &mkp LCLK &mkp LCLK>;
+        };
+
     };
 
     behaviors {
@@ -247,7 +257,7 @@
             bindings = <
 &trans  &trans  &kp PG_UP  &kp UP    &kp PG_DN  &trans                          &mod_click LCTRL &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
 &trans  &kp LC(LEFT)  &kp LEFT   &kp DOWN  &kp RIGHT  &kp LC(RIGHT)            &mod_click LSHIFT &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
-&trans  &kp LC(HOME)  &kp HOME   &trans    &kp END    &kp LC(END)              &mod_click LALT &mkp MB4         &trans    &mkp MB5     &kp PSCRN   &trans
+&trans  &kp LC(HOME)  &kp HOME   &trans    &kp END    &kp LC(END)              &dbl_click       &mkp MB4         &trans    &mkp MB5     &kp PSCRN   &trans
         &trans  &trans     &trans    &trans     &trans   &trans      &trans     &trans                                 &trans       &trans
             >;
         };
