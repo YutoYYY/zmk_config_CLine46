@@ -66,6 +66,11 @@
             if-layers = <6 MAC>;
             then-layer = <12>;
         };
+
+        mac_sym {
+            if-layers = <1 MAC>;
+            then-layer = <13>;
+        };
     };
 
     macros {
@@ -218,7 +223,7 @@
 &kp DLLR   &kp SEMI  &kp COLON  &kp LPAR  &kp RPAR  &kp AT                         &kp EXCL   &kp N7  &kp N8  &kp N9  &kp EQUAL  &kp CARET
 &kp PIPE   &kp SQT   &kp DQT    &kp LBKT  &kp RBKT  &kp HASH                       &kp PRCNT  &kp N4  &kp N5  &kp N6  &kp PLUS   &kp MINUS
 &kp TILDE  &kp BSLH  &kp GRAVE  &kp LBRC  &kp RBRC  &kp AMPS                       &kp N0     &kp N1  &kp N2  &kp N3  &kp STAR   &kp SLASH
-        &trans    &trans     &trans    &trans    &trans    &trans     &trans    &trans                     &trans  &trans
+        &trans    &trans     &trans    &trans    &trans    &trans     &trans    &trans                     &kp LG(DOT)  &trans
             >;
         };
 
@@ -253,7 +258,7 @@
         // Q=タスクマネージャー Z=全画面(F11) は追加分)
         layer_5 {
             bindings = <
-&trans  &kp LC(LS(ESC))  &trans  &kp RG(UP)  &trans          &kp LG(DOT)                  &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
+&trans  &kp LC(LS(ESC))  &trans  &kp RG(UP)  &trans          &trans                       &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
 &trans  &trans  &kp RG(LEFT)   &kp RG(DOWN)  &kp RG(RIGHT)   &kp LG(D)                    &trans  &kp RS(RG(LEFT))  &kp RS(RG(DOWN))  &kp RS(RG(RIGHT))  &trans  &trans
 &trans  &kp F11  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &kp LGUI          &kp RG(TAB)       &trans             &trans  &trans
         &trans  &trans         &trans        &trans          &trans  &trans      &trans   &trans                                        &trans             &trans
@@ -269,12 +274,13 @@
             >;
         };
 
-        // 7: Macモード本体。Win/Ctrl の位置を入れ替え(Ctrl の位置 = Cmd)、単語削除・Alt+Tab を変換
+        // 7: Macモード本体。Win/Ctrl の位置を入れ替え(Ctrl の位置 = Cmd)、単語削除を変換
+        //    (Alt+Tab → Cmd+Tab は Layer 0 の App Tab が Mac モードを見て切り替える)
         mac_layer {
             display-name = "Mac";
             bindings = <
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
-&app_tab   &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &app_tab
+&trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
            &kp LCTRL       &trans  &kp LGUI  &trans  &trans  &trans    &mac_bspc  &trans                  &trans  &mac_del
             >;
@@ -308,7 +314,7 @@
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
-&trans  &kp LG(LA(ESC))  &kp LG(GRAVE)  &kp LC(LA(RET))    &trans              &kp LC(LG(SPACE))       &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
+&trans  &kp LG(LA(ESC))  &kp LG(GRAVE)  &kp LC(LA(RET))    &trans              &trans                  &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
 &trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(LEFT)))  &kp LC(LA(BSPC))    &kp LC(LA(LG(RIGHT)))  &trans  &trans
 &trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &kp LC(LA(LG(V)))     &trans                  &trans  &kp LC(LA(LG(A)))            &kp LC(UP)          &trans                 &trans  &trans
         &trans  &trans                  &trans             &trans              &trans  &trans    &trans  &trans                                                &trans                 &trans
@@ -334,6 +340,17 @@
 &trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans        &trans  &trans        &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                        &trans  &kp LG(LBKT)  &trans  &kp LG(RBKT)  &trans  &trans
         &trans  &trans  &trans  &trans  &trans  &trans      &trans    &trans                                      &trans  &trans
+            >;
+        };
+
+        // 13: Mac版 L1(🔍 の位置の絵文字を ⌃⌘Space に)
+        mac_sym_layer {
+            display-name = "Mac L1";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans  &trans  &trans
+        &trans  &trans  &trans  &trans  &trans  &trans      &trans    &trans                          &kp LC(LG(SPACE))  &trans
             >;
         };
     };
