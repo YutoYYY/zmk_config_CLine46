@@ -24,6 +24,11 @@
     quick-tap-ms = <0>;
 };
 
+// クリック用の修飾キー(Layer 2 右手)はワンショット。押して離したあと、狙いを定めてクリックするまで待つ
+&sk {
+    release-after-ms = <5000>;
+};
+
 / {
     combos {
         compatible = "zmk,combos";
@@ -229,9 +234,9 @@
 
         MOUSE {
             bindings = <
-&trans  &trans  &kp PG_UP  &kp UP    &kp PG_DN  &trans                          &kp LCTRL   &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
-&trans  &kp LC(LEFT)  &kp LEFT   &kp DOWN  &kp RIGHT  &kp LC(RIGHT)            &kp LSHIFT  &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
-&trans  &kp LC(HOME)  &kp HOME   &trans    &kp END    &kp LC(END)              &kp LGUI    &mkp MB4         &trans    &mkp MB5     &kp PSCRN   &trans
+&trans  &trans  &kp PG_UP  &kp UP    &kp PG_DN  &trans                          &sk LCTRL   &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
+&trans  &kp LC(LEFT)  &kp LEFT   &kp DOWN  &kp RIGHT  &kp LC(RIGHT)            &sk LSHIFT  &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
+&trans  &kp LC(HOME)  &kp HOME   &trans    &kp END    &kp LC(END)              &sk LALT    &mkp MB4         &trans    &mkp MB5     &kp PSCRN   &trans
         &trans  &trans     &trans    &trans     &trans   &trans      &trans     &trans                                 &trans       &trans
             >;
         };
@@ -291,9 +296,9 @@
         mac_nav_layer {
             display-name = "Mac L2";
             bindings = <
-&trans  &trans  &trans     &mac_up    &trans     &trans                       &kp LGUI    &trans  &trans  &trans  &trans            &trans
+&trans  &trans  &trans     &mac_up    &trans     &trans                       &sk LGUI    &trans  &trans  &trans  &trans            &trans
 &trans  &kp LA(LEFT)  &mac_left  &mac_down  &mac_right &kp LA(RIGHT)          &trans      &trans  &trans  &trans  &trans            &trans
-&trans  &kp LG(UP)    &mac_home  &trans     &mac_end   &kp LG(DOWN)           &kp LCTRL   &kp LG(LBKT)  &trans  &kp LG(RBKT)  &kp LG(LS(N5))    &trans
+&trans  &kp LG(UP)    &mac_home  &trans     &mac_end   &kp LG(DOWN)           &trans      &kp LG(LBKT)  &trans  &kp LG(RBKT)  &kp LG(LS(N5))    &trans
         &trans  &trans     &trans     &trans     &trans  &trans      &trans   &trans                          &trans  &trans
             >;
         };
