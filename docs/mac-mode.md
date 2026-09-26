@@ -105,7 +105,7 @@ Space 寄りの親指キー(Ctrl の位置)を押したまま Tab でアプリ�
 | 右親指(トラックボールの右) | Caps → 🔍(Windows 検索 / Mac Spotlight)。Caps は 英数 + A |
 | Space(記号) | 左端の列に $ \| ~、右端の列に ^ - /(= + * と並べて電卓風) |
 | Enter(矢印) | A / G = 単語単位で ← / →、Z / B = 文書の先頭 / 末尾(Mac は ⌥← / ⌥→、⌘↑ / ⌘↓) |
-| / (Bluetooth) | Tab 位置の全消去を削除。H = USB と Bluetooth の切替、I = 接続状態ランプ、, = 電池残量ランプ、左下 / 右下 = その手の書き込みモード(リセット2回押しの代わり) |
+| / (Bluetooth) | Tab 位置の全消去を削除。H = USB と Bluetooth の切替、I = 接続状態ランプ、, = 電池残量ランプ、B / N = その手の書き込みモード(リセット2回押しの代わり) |
 | 英数(メディア) | Vol− の下 = ミュート、C = アプリ終了(Windows Alt+F4 / Mac ⌘Q) |
 | 絵文字 | かな + T から Space + 🔍 に移動(Windows Win + . / Mac ⌃⌘Space) |
 
