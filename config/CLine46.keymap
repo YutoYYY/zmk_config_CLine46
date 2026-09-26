@@ -245,7 +245,7 @@
             bindings = <
 &bt BT_CLR      &trans  &os_win  &trans  &trans  &trans                        &trans  &bt BT_SEL 3  &ind_con      &bt BT_SEL 4  &trans  &trans
 &trans          &os_mac &trans   &trans  &trans  &trans                        &out OUT_TOG  &bt BT_SEL 1  &bt BT_SEL 0  &bt BT_SEL 2  &trans  &trans
-&bootloader     &trans  &trans   &trans  &trans  &trans                        &trans  &bt BT_PRV    &ind_bat      &bt BT_NXT    &trans  &bootloader
+&trans          &trans  &trans   &trans  &trans  &bootloader                   &bootloader  &bt BT_PRV    &ind_bat      &bt BT_NXT    &trans  &trans
                 &trans  &trans   &trans  &trans  &trans  &trans      &studio_unlock  &trans                        &trans        &trans
             >;
         };
