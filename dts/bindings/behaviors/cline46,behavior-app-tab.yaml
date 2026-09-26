@@ -1,0 +1,5 @@
+description: Tab key that switches apps with the thumb key next to Space (Ctrl+Tab -> Alt+Tab on Windows, Alt+Tab -> Cmd+Tab on Mac)
+
+compatible: "cline46,behavior-app-tab"
+
+include: zero_param.yaml

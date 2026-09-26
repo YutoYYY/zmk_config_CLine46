@@ -1,0 +1,14 @@
+description: Windows/Mac mode switch. Activates or deactivates the Mac layer and remembers it across reboots.
+
+compatible: "cline46,behavior-os-mode"
+
+include: zero_param.yaml
+
+properties:
+  layer:
+    type: int
+    required: true
+    description: Layer id of the Mac mode layer
+  mac-mode:
+    type: boolean
+    description: If set, this binding switches to Mac mode; otherwise to Windows mode
