@@ -108,6 +108,17 @@
                 ;
         };
 
+        // Windows: 一発で画面全体に最大化(ウィンドウメニュー Alt+Space → 最大化(X))。
+        // Win+↑ と違い、スナップ中でも最大化ボタンと同じ動きになる
+        win_max: win_max {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "Maximize";
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 150>, <&macro_tap &kp X>;
+        };
+
         // 左ダブルクリック(Layer 2 右手)
         dbl_click: dbl_click {
             compatible = "zmk,behavior-macro";
@@ -238,12 +249,13 @@
         // 長押しは左右で鏡写し(同じ位置なら同じレイヤー)
         //   Space / Enter = L2、A / 右Tab位置 = L5、Z / "/" = L3、英数 / 右Shift位置 = L4、かな / 🔍 = L1
         //   右Tab位置のタップはかな、右Shift位置のタップは英数(左親指の英数・かなと同じキー)
+        //   🔍 のタップは Windows では PowerToys Run(Ctrl+Alt+Space)、Mac では Spotlight
         default_layer {
             bindings = <
 &kp ESC      &kp Q         &kp W  &kp E      &kp R        &kp T                                           &kp Y      &kp U       &kp I      &kp O    &kp P          &kp ESC
 &app_tab     &lt 5 A       &kp S  &kp D      &kp F        &kp G                                           &kp H      &kp J       &kp K      &kp L    &kp MINUS      &lt 5 LANG1
 &kp LSHIFT   &lt 3 Z       &kp X  &kp C      &kp V        &kp B                                           &kp N      &kp M       &kp COMMA  &kp DOT  &lt 3 SLASH    &lt 4 LANG2
-             &kp LGUI      &kp LALT   &kp LCTRL    &lt 4 LANG2  &lt 2 SPACE  &lt 1 LANG1    &kp BSPC   &lt 2 RET                         &kp DEL  &lt 1 C_AC_SEARCH
+             &kp LGUI      &kp LALT   &kp LCTRL    &lt 4 LANG2  &lt 2 SPACE  &lt 1 LANG1    &kp BSPC   &lt 2 RET                         &kp DEL  &lt 1 LC(LA(SPACE))
             >;
         };
 
@@ -288,9 +300,10 @@
         // 5: ウィンドウ操作。左右とも同じ配置(左 WER/SDF/XCV/TGB = 右 UIO/JKL/M,./YHN)
         //    矢印の形で 最大化/左右スナップ/元に戻す、上段の左右=仮想デスクトップ、下段の左右=別モニタへ、
         //    中段の間=タスクビュー、内側の列=全画面/デスクトップ表示/スナップレイアウト、親指=スタート/縦に最大化
+        //    P=Win+↑(Windows 専用。スナップ中は 1/4 に縮めてスナップアシストを出す)
         layer_5 {
             bindings = <
-&trans  &trans  &kp RC(RG(LEFT))    &kp RG(UP)    &kp RC(RG(RIGHT))    &kp F11                   &kp F11    &kp RC(RG(LEFT))    &kp RG(UP)    &kp RC(RG(RIGHT))    &trans  &trans
+&trans  &trans  &kp RC(RG(LEFT))    &win_max      &kp RC(RG(RIGHT))    &kp F11                   &kp F11    &kp RC(RG(LEFT))    &win_max      &kp RC(RG(RIGHT))    &kp RG(UP)  &trans
 &trans  &trans  &kp RG(LEFT)        &kp RG(DOWN)  &kp RG(RIGHT)        &kp LG(D)                 &kp LG(D)  &kp RG(LEFT)        &kp RG(DOWN)  &kp RG(RIGHT)        &trans  &trans
 &trans  &trans  &kp RS(RG(LEFT))    &kp RG(TAB)   &kp RS(RG(RIGHT))    &kp RG(Z)                 &kp RG(Z)  &kp RS(RG(LEFT))    &kp RG(TAB)   &kp RS(RG(RIGHT))    &trans  &trans
         &trans  &trans  &trans  &trans  &kp LGUI  &kp RS(RG(UP))      &kp RS(RG(UP))  &kp LGUI                                              &trans  &trans
@@ -314,7 +327,7 @@
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
 &trans     &trans  &trans  &trans  &trans  &trans                            &trans  &trans  &trans  &trans  &trans  &trans
-           &kp LCTRL       &trans  &kp LGUI  &trans  &trans  &trans    &mac_bspc  &trans                  &mac_del  &trans
+           &kp LCTRL       &trans  &kp LGUI  &trans  &trans  &trans    &mac_bspc  &trans                  &mac_del  &lt 1 C_AC_SEARCH
             >;
         };
 
@@ -346,7 +359,7 @@
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
-&trans  &trans  &kp LC(LEFT)            &kp LC(LA(RET))    &kp LC(RIGHT)            &kp LC(LG(F))          &kp LC(LG(F))  &kp LC(LEFT)            &kp LC(LA(RET))    &kp LC(RIGHT)            &trans  &trans
+&trans  &trans  &kp LC(LEFT)            &kp LC(LA(RET))    &kp LC(RIGHT)            &kp LC(LG(F))          &kp LC(LG(F))  &kp LC(LEFT)            &kp LC(LA(RET))    &kp LC(RIGHT)            &none   &trans
 &trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))        &kp F11                &kp F11        &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))        &trans  &trans
 &trans  &trans  &kp LC(LA(LG(LEFT)))    &kp LC(UP)         &kp LC(LA(LG(RIGHT)))    &kp LC(DOWN)           &kp LC(DOWN)   &kp LC(LA(LG(LEFT)))    &kp LC(UP)         &kp LC(LA(LG(RIGHT)))    &trans  &trans
         &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &kp LC(LA(LS(UP)))      &kp LC(LA(LS(UP)))  &kp LC(LA(LG(A)))                                            &trans  &trans
