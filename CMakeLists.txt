@@ -5,3 +5,6 @@ if((NOT CONFIG_ZMK_SPLIT) OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
   target_sources(app PRIVATE src/behaviors/behavior_app_tab.c)
   target_sources(app PRIVATE src/keymap_migrate.c)
 endif()
+
+# キー使用回数の記録(右手側=セントラルのみ)
+add_subdirectory(modules/typing-heatmap)
