@@ -116,7 +116,7 @@
             display-name = "Maximize";
             wait-ms = <30>;
             tap-ms = <30>;
-            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 150>, <&macro_tap &kp X>;
+            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 400>, <&macro_tap &kp X>;
         };
 
         // 左ダブルクリック(Layer 2 右手)
