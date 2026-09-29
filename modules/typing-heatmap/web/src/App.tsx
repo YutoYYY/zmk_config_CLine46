@@ -90,6 +90,11 @@ function App() {
               <div className="device-info">
                 <h3>✅ 接続中: {deviceName}</h3>
               </div>
+              <p className="hint-message">
+                Bluetoothで接続した場合、切断してもブラウザが接続を握ったままになり、DYAStudio
+                がつながらないことがあります。DYAStudio
+                を使う前にこのタブを閉じてください。
+              </p>
               <button className="btn btn-secondary" onClick={disconnect}>
                 切断
               </button>
