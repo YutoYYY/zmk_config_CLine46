@@ -285,7 +285,7 @@
         layer_5 {
             bindings = <
 &trans  &kp LC(LS(ESC))  &trans  &kp RG(UP)  &trans          &trans                       &trans  &kp RC(RG(LEFT))  &kp RS(RG(UP))    &kp RC(RG(RIGHT))  &trans  &trans
-&trans  &trans  &kp RG(LEFT)   &kp RG(DOWN)  &kp RG(RIGHT)   &kp LG(D)                    &trans  &kp RS(RG(LEFT))  &kp RS(RG(DOWN))  &kp RS(RG(RIGHT))  &trans  &trans
+&trans  &trans  &kp RG(LEFT)   &kp RG(DOWN)  &kp RG(RIGHT)   &kp LG(D)                    &trans  &kp RS(RG(RIGHT)) &kp RS(RG(DOWN))  &kp RS(RG(LEFT))   &trans  &trans
 &trans  &kp F11  &kp LG(LS(S))  &kp RG(Z)     &kp LG(V)       &trans                       &trans  &kp LGUI          &kp RG(TAB)       &trans             &trans  &trans
         &trans  &trans         &trans        &trans          &trans  &trans      &trans   &trans                                        &trans             &trans
             >;
@@ -341,7 +341,7 @@
             display-name = "Mac L5";
             bindings = <
 &trans  &kp LG(LA(ESC))  &kp LG(GRAVE)  &kp LC(LA(RET))    &trans              &trans                  &trans  &kp LC(LEFT)          &kp LC(LA(LS(UP)))  &kp LC(RIGHT)          &trans  &trans
-&trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(LEFT)))  &kp LC(LA(BSPC))    &kp LC(LA(LG(RIGHT)))  &trans  &trans
+&trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))   &kp F11                 &trans  &kp LC(LA(LG(RIGHT))) &kp LC(LA(BSPC))    &kp LC(LA(LG(LEFT)))   &trans  &trans
 &trans  &kp LC(LG(F))  &kp LC(LG(LS(N4)))  &kp LC(DOWN)  &kp LC(LA(LG(V)))     &trans                  &trans  &kp LC(LA(LG(A)))            &kp LC(UP)          &trans                 &trans  &trans
         &trans  &trans                  &trans             &trans              &trans  &trans    &trans  &trans                                                &trans                 &trans
             >;

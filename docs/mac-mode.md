@@ -65,7 +65,7 @@ OS 側の修飾キー入れ替えは不要で、キーボードだけで完結�
 | U / O | Ctrl + Win + ← / →(仮想デスクトップ切替) | Control + ← / →(操作スペース切替) |
 | I | Shift + Win + ↑(縦に最大化) | Rectangle: 高さを最大化 |
 | K | Shift + Win + ↓ | Rectangle: 元のサイズに戻す |
-| J / L | Shift + Win + ← / →(別モニタへ移動) | Rectangle: 前 / 次のディスプレイ |
+| J / L | Shift + Win + → / ←(別モニタへ移動。モニタの物理配置に合わせて左右逆) | Rectangle: 次 / 前のディスプレイ |
 | M | Win(スタートメニュー) | アプリ一覧(4本指ピンチと同じ。⌃⌥⌘A を送るので、下の初回設定で割り当てる) |
 | , | Win + Tab(タスクビュー) | Mission Control(4本指スワイプアップと同じ。Control + ↑) |
 
