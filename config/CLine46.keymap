@@ -268,12 +268,12 @@
             >;
         };
 
-        // 2: 矢印・マウス。左手は縦の対(Q/Z=文書の先頭/末尾、W/X=Home/End、E/D=↑/↓、R/V=PgUp/PgDn)
+        // 2: 矢印・マウス。左手: Q/A=文書の先頭/末尾、W/R=Home/End、T/G=PgUp/PgDn、X/V=単語左/右
         MOUSE {
             bindings = <
-&trans  &kp LC(HOME)  &kp HOME   &kp UP    &kp PG_UP  &trans                   &mod_click LCTRL &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
-&trans  &kp LC(LEFT)  &kp LEFT   &kp DOWN  &kp RIGHT  &kp LC(RIGHT)            &mod_click LSHIFT &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
-&trans  &kp LC(END)   &kp END    &trans    &kp PG_DN  &trans                   &dbl_click       &mkp MB4         &trans    &mkp MB5     &trans      &trans
+&trans  &kp LC(HOME)  &kp HOME   &kp UP    &kp END    &kp PG_UP                &mod_click LCTRL &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
+&trans  &kp LC(END)   &kp LEFT   &kp DOWN  &kp RIGHT  &kp PG_DN                &mod_click LSHIFT &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
+&trans  &trans        &kp LC(LEFT) &trans  &kp LC(RIGHT) &trans                &dbl_click       &mkp MB4         &trans    &mkp MB5     &trans      &trans
         &trans  &trans     &trans    &trans     &trans   &trans      &trans     &trans                                 &trans       &trans
             >;
         };
@@ -336,9 +336,9 @@
         mac_nav_layer {
             display-name = "Mac L2";
             bindings = <
-&trans  &kp LG(UP)    &mac_home  &mac_up    &trans     &trans                  &mod_click LGUI &trans  &trans  &trans  &trans            &trans
-&trans  &kp LA(LEFT)  &mac_left  &mac_down  &mac_right &kp LA(RIGHT)          &trans      &trans  &trans  &trans  &trans            &trans
-&trans  &kp LG(DOWN)  &mac_end   &trans     &trans     &trans                  &trans      &kp LG(LBKT)  &trans  &kp LG(RBKT)  &trans    &trans
+&trans  &kp LG(UP)    &mac_home  &mac_up    &mac_end   &trans                  &mod_click LGUI &trans  &trans  &trans  &trans            &trans
+&trans  &kp LG(DOWN)  &mac_left  &mac_down  &mac_right &trans                  &trans      &trans  &trans  &trans  &trans            &trans
+&trans  &trans        &kp LA(LEFT) &trans   &kp LA(RIGHT) &trans               &trans      &kp LG(LBKT)  &trans  &kp LG(RBKT)  &trans    &trans
         &trans  &trans     &trans     &trans     &trans  &trans      &trans   &trans                          &trans  &trans
             >;
         };
