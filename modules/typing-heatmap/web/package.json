@@ -11,7 +11,7 @@
     "generate": "buf generate",
     "format": "prettier --write .",
     "build:single": "buf generate && tsc -b && vite build -c vite.single.config.ts && cp dist-single/index.html ../../../docs/typing-heatmap.html",
-    "layout": "python3 scripts/gen_layout.py ../../.. > src/layout.ts"
+    "layout": "python3 scripts/gen_layout.py ../../.. > src/layout.ts && prettier --write src/layout.ts"
   },
   "dependencies": {
     "@cormoran/zmk-studio-react-hook": "github:cormoran/react-zmk-studio#8a9903592b61a37bcc209ce8fc17b9d6e545a14b",
