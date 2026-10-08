@@ -18,7 +18,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #if IS_ENABLED(CONFIG_SETTINGS) && IS_ENABLED(CONFIG_ZMK_KEYMAP_SETTINGS_STORAGE)
 
 // ファームの配列を必ず反映させたいときに上げる
-#define KEYMAP_REV 4
+#define KEYMAP_REV 5
 
 static uint8_t saved_rev = 0;
 

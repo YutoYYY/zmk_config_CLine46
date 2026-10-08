@@ -45,6 +45,7 @@ def label(b):
     if n == "trans": return "▽"
     if n == "none": return "×"
     if n == "lt": return f"{key(a[1])}/L{a[0]}"
+    if n == "lt_app_tab": return f"App切替/L{a[0]}"
     if n in ("mo", "to", "tog", "sl"): return f"{n} {a[0]}"
     if n == "mt": return f"{key(a[1])}/{key(a[0])}"
     if n == "mkp": return {"LCLK": "左クリック", "RCLK": "右クリック", "MCLK": "中クリック",
@@ -53,7 +54,8 @@ def label(b):
                "bootloader": "書込モード", "os_win": "Winモード", "os_mac": "Macモード",
                "ind_con": "接続LED", "ind_bat": "電池LED", "mac_dictation": "音声入力",
                "mac_up": "↑", "mac_down": "↓", "mac_left": "←", "mac_right": "→", "mac_home": "Home",
-               "mac_end": "End", "mac_bspc": "BS", "mac_del": "Del", "mac_f4": "F4"}
+               "mac_end": "End", "mac_bspc": "BS", "mac_del": "Del", "mac_f4": "F4",
+               "win_max": "最大化", "win_min": "最小化"}
     if n in special: return special[n]
     if n == "mod_click": return f"{key(a[0])}+クリック"
     if n == "out": return "USB/BT切替"

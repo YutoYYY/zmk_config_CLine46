@@ -31,7 +31,8 @@
 | `config/CLine46.keymap` | キーマップ(ファーム既定) |
 | `src/behaviors/behavior_os_mode.c` | Windows / Mac モードの切替。状態は本体に保存される |
 | `src/behaviors/behavior_app_tab.c` | Ctrl の位置 + Tab で、Windows では Alt+Tab、Mac では ⌘+Tab を送る |
-| `src/keymap_migrate.c` | `KEYMAP_REV`(現在 **4**)。値を上げたファームを初めて起動したときだけ、保存キーマップを消す(BT ペアリングと OS モードは残る) |
+| `src/keymap_migrate.c` | `KEYMAP_REV`(現在 **5**)。値を上げたファームを初めて起動したときだけ、保存キーマップを消す(BT ペアリングと OS モードは残る) |
+| `docs/keymap.html` | キーマップページ(全レイヤーを Windows / Mac で切り替えて表示)。GitHub Pages(main の /docs)で https://yutoyyy.github.io/zmk_config_CLine46/keymap.html に公開する。**キーマップを変えたらここも更新する** |
 | `docs/mac-mode.md` | Windows / Mac モードの説明と初回設定 |
 | `build.yaml`, `.github/workflows/build.yml` | GitHub Actions のビルド設定 |
 
@@ -42,7 +43,8 @@
 | #1 Mac モード(`claude/mac-mode`) | マージ済み。ブランチには BT 枠を入れ替えて戻しただけのコミットが2つ残っている |
 | #4 長押しの左右鏡写しとウィンドウ操作(`claude/window-symmetric`) | マージ済み |
 | #3 キー使用回数の記録(`claude/typing-heatmap`) | マージ済み(2026-10-08、`claude/debounce` 経由) |
-| `claude/debounce` | チャタリング対策(下記)と HANDOFF.md。PR は作らず、2026-10-08 に main へ直接マージ。**今は main = 左右の実機のファーム** |
+| `claude/debounce` | チャタリング対策(下記)と HANDOFF.md。PR は作らず、2026-10-08 に main へ直接マージ |
+| `claude/l5-window-review` | L5 の見直し(右手に移動・サイズを集約、最小化、仮想デスクトップの作成・削除)、L5 の長押しを A → 左 Tab、L2 / に PrtSc、L4 Y をエクスプローラー、L6 の戻る / 進むを削除、最大化の待ち時間 0.8 秒。KEYMAP_REV 5。2026-10-08 に実機で確認し、main へ直接マージ。**今は main = 左右の実機のファーム** |
 | #2 L3 の BT 枠の入れ替え(`claude/swap-monitor-keys`) | 2026-10-08 にマージせず閉じた。並びが実機と違っていた(J=BT0 / K=BT1 / L=BT2)。BT の並びは DYAStudio の保存分で運用している |
 | `firmware` | ビルド済みファームの置き場 |
 
@@ -64,17 +66,17 @@
 
 L7 に置いたキーは、L1〜L6 の同じ位置のキーを隠すので注意する。
 
-### 長押し(レイヤータップ)は左右鏡写し
+### 長押し(レイヤータップ)
 
 | 左 | 右 | 長押し | 補足 |
 |---|---|---|---|
 | Space | Enter | L2 | |
-| A | 右 Tab の位置 | L5 | 右のタップはかな |
-| Z | / | L3 | 本体では Z の長押しを外している(下の「ファーム既定とのずれ」を参照) |
+| Tab | 右 Tab の位置 | L5 | 左のタップは App Tab、右のタップはかな。A の長押しは誤爆するので 2026-10-08 に Tab へ移した |
+| なし | / | L3 | Z の長押しは Google 日本語入力の z+h / l とぶつかるので外している |
 | 英数 | 右 Shift の位置 | L4 | 右のタップは英数 |
 | かな | 🔍 | L1 | 🔍 と Del は入れ替え済み。🔍 のタップは Windows では PowerToys Run(Ctrl+Alt+Space)、Mac では Spotlight |
 
-- すべてのレイヤータップに `require-prior-idle-ms=150` を設定している。直前のキーから 0.15 秒以内に押したら長押し判定をせず、すぐタップにする誤爆対策で、効果は確認済み。`tapping-term` は 200ms。
+- すべてのレイヤータップ(左 Tab の `lt_app_tab` も)に `require-prior-idle-ms=150` を設定している。直前のキーから 0.15 秒以内に押したら長押し判定をせず、すぐタップにする誤爆対策で、効果は確認済み。`tapping-term` は 200ms。
 
 ### 指の制約(本人の説明)
 
@@ -85,24 +87,23 @@ L7 に置いたキーは、L1〜L6 の同じ位置のキーを隠すので注意
 ### 各レイヤー
 
 - **L2 左手**: Q / A = 文書の先頭 / 末尾、W / R = Home / End、T / G = PgUp / PgDn、X / V = 単語単位で左 / 右、E / S / D / F = 矢印。
-- **L2 右手**: 修飾キー付きクリック(Ctrl / Shift)、ダブルクリック、戻る / 進む、タブ切替。
+- **L2 右手**: 修飾キー付きクリック(Ctrl / Shift)、ダブルクリック、戻る / 進む、タブ切替、/ = PrtSc(Mac は ⌘⇧5)。
 - **L3**: W = Windows モード、A = Mac モード(状態は本体に保存)、B / N = その手の書き込みモード、H = USB / BT 切替、I = 接続ランプ、, = 電池ランプ、Backspace の位置 = Studio Unlock。
-- **L4**: H = PrtSc、Y = クリップボード履歴、N = タスクマネージャー。ほかに音量・メディア操作・F1〜F12、F20 / F21 = 画面の明るさ。
-- **L5(左右同じ配置)**: 左の WER / SDF / XCV / TGB と、右の UIO / JKL / M,. / YHN が同じ働きをする。
-  - E / I = 最大化(Alt+Space → X のマクロで、間に 0.4 秒待つ。スナップ中でも一発で最大化できる)
-  - S / F = 左右にスナップ、D = Win+↓
-  - W / R = 仮想デスクトップの切替、X / V = 別のモニタへ移動
-  - C = タスクビュー、T = F11(全画面)、G = デスクトップ表示、B = スナップレイアウト
-  - 親指 = スタート / 縦に最大化
-  - P = Win+↑(Windows 専用)
-- **L6 オートマウス**: 切れるまでの時間はファームではなく、DYAStudio の Temp Layer「Deactivation Delay」= 500ms で決まる(本体に保存)。
+- **L4**: Y = エクスプローラー(Mac は ⌥⌘Space)、N = タスクマネージャー、H は空き。クリップボード履歴は Win+V を直接押す。ほかに音量・メディア操作・F1〜F12、F20 / F21 = 画面の明るさ。
+- **L5**: 鏡写しはやめ、右手 = ウィンドウの移動・サイズ、左手 = 仮想デスクトップ。
+  - 右手: I = 最大化、J / L = 左右にスナップ、K = Win+↓、, = 最小化、U / O = 別のモニタへ、Y = 縦に最大化、P = Win+↑、H = スナップレイアウト、- = F11
+  - 左手: W / R = 仮想デスクトップの切替、Q / Z = 仮想デスクトップの作成 / 削除(Mac は無効)、E = タスクビュー、D = デスクトップ表示
+  - 親指(Space / Enter の位置)= スタート
+  - 最大化 / 最小化は Alt+Space → X / N のマクロ。そのウィンドウで初めて開くメニューは表示が遅いので、間に 0.8 秒待つ
+- **L6 オートマウス**: 左 / 中 / 右クリックだけ(戻る / 進むは 2026-10-08 に削除。Mac 用の L12 は空だが番号を保つために残す)。切れるまでの時間はファームではなく、DYAStudio の Temp Layer「Deactivation Delay」= 500ms で決まる(本体に保存)。
 
 ### ファーム既定とのずれ(KEYMAP_REV を上げる前に必ず照合)
 
+KEYMAP_REV 5 で、それまでのずれ(L0 の Z の長押し、L3 の BT 枠の並び)はファーム既定を本体に合わせて解消した。
+DYAStudio で本体の配列を変えたら、ここに書き足す。
+
 | 場所 | 本体(正) | ファーム既定(main) |
 |---|---|---|
-| L0 Z | 普通の Z(Google 日本語入力の z+h / l による矢印入力とぶつかるため) | `&lt 3 Z` |
-| L3 BT 枠 | J = BT2、K = BT1、L = BT0(右下の L が 0) | J = BT1、K = BT0、L = BT2 |
 | L6 の Deactivation Delay | 500ms | (ファーム側には無い設定) |
 
 ## Mac モード
@@ -136,7 +137,8 @@ L7 に置いたキーは、L1〜L6 の同じ位置のキーを隠すので注意
 - **ローカルでビルドする場合**(参考): west + Zephyr SDK 0.16.8、`setuptools<70`、`-DZMK_EXTRA_MODULES=<リポジトリ直下>`、右手は `-S studio-rpc-usb-uart`。キーマップだけ変えても反映されないことがあるので、`-p` を付けて再ビルドする。
 - **社用 PC でのローカルビルド**: Docker で `zmkfirmware/zmk-build-arm:3.5` を使う(west や SDK は入れていない)。west のワークスペースは Docker ボリューム `zmk-cline46-ws` に置いてある。初回は約 5GB をダウンロードする。uf2 は `cliine46/firmware-local/` に出力する。
 - **社用 PC からのプッシュ**: この PC の GitHub ログインは KobayashiYut0 で、フォークへの書き込み権限がない。リモート URL を `https://YutoYYY@github.com/...` にして、このリポジトリだけ YutoYYY でプッシュする。
-- **書き込み**: L3 の B(左手)/ N(右手)で書き込みモードにし、現れたドライブに uf2 をコピーする。`KEYMAP_REV` を変えていなければ、DYAStudio で保存した配列は残る。
+- **書き込み**: L3 の B(左手)/ N(右手)で書き込みモードにし、現れたドライブに uf2 をコピーする。
+  - 2026-10-08、左手は L3 + B で書き込みモードに入らず(LED が赤になって普通に再起動した)、XIAO のリセットボタンを素早く 2 回押して書き込んだ。原因は未調査。`KEYMAP_REV` を変えていなければ、DYAStudio で保存した配列は残る。
 
 ## キー使用回数の記録(PR #3)
 
