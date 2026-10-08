@@ -60,14 +60,17 @@ Layer 5 は 左 Tab または 右 Tab の位置(かな)の長押しです。右�
 | , | 最小化(Alt + Space → N) | ⌘ + M |
 | U / O | Shift + Win + ← / →(別モニタへ移動) | Rectangle: 前 / 次のディスプレイ |
 | Y | Shift + Win + ↑(縦に最大化) | Rectangle: 高さを最大化 |
-| P | Win + ↑ | Rectangle: 上半分 |
+| . | Win + ↑ | Rectangle: 上半分 |
 | H | Win + Z(スナップレイアウト) | アプリExposé(Control + ↓) |
 | - | F11(全画面) | フルスクリーン(Control + ⌘ + F) |
-| W / R | Ctrl + Win + ← / →(仮想デスクトップ切替) | Control + ← / →(操作スペース切替) |
-| E | Win + Tab(タスクビュー) | Mission Control(4本指スワイプアップと同じ。Control + ↑) |
-| D | Win + D(デスクトップ表示) | F11(デスクトップを表示) |
-| Q / Z | Ctrl + Win + D / F4(仮想デスクトップの作成 / 削除) | なし |
-| Space / Enter の位置 | Win(スタートメニュー) | アプリ一覧(4本指ピンチと同じ。⌃⌥⌘A を送るので、下の初回設定で割り当てる) |
+| Backspace の位置 | Esc(スナップ後の候補を閉じる) | Esc |
+| S / F | Ctrl + Win + ← / →(仮想デスクトップ切替) | Control + ← / →(操作スペース切替) |
+| D | Win + Tab(タスクビュー) | Mission Control(4本指スワイプアップと同じ。Control + ↑) |
+| T / G | Ctrl + Win + D / F4(仮想デスクトップの作成 / 削除) | なし |
+| E | Win + D(デスクトップ表示) | F11(デスクトップを表示) |
+| Space の位置 | Win(スタートメニュー) | アプリ一覧(4本指ピンチと同じ。⌃⌥⌘A を送るので、下の初回設定で割り当てる) |
+
+Enter はこのレイヤーでもそのまま Enter です(スナップ後の候補を選ぶ)。
 
 ## アプリ切替は Windows / Mac とも同じ指で
 
@@ -85,9 +88,9 @@ Space 寄りの親指キー(Ctrl の位置)を押したまま Tab でアプリ�
 | アプリ切替 | Ctrl の位置(⌘)を押したまま Tab。Alt + Tab でも可(離すまで一覧が出たまま) |
 | 同じアプリの別ウィンドウへ | 英数(L4)+ Enter の位置(⌘ + `) |
 | アプリExposé(今のアプリのウィンドウ一覧) | Tab(L5)+ H |
-| Mission Control(4本指スワイプアップ) | Tab(L5)+ E |
-| 操作スペース(デスクトップ)切替 | Tab(L5)+ W / R |
-| デスクトップを表示 | Tab(L5)+ D |
+| Mission Control(4本指スワイプアップ) | Tab(L5)+ D |
+| 操作スペース(デスクトップ)切替 | Tab(L5)+ S / F |
+| デスクトップを表示 | Tab(L5)+ E |
 | フルスクリーン | Tab(L5)+ - |
 | 最小化 | Tab(L5)+ , |
 | 強制終了 | 英数(L4)+ N |

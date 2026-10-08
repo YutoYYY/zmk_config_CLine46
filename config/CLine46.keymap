@@ -330,18 +330,18 @@
         };
 
         // 5: ウィンドウ操作(左Tab / 右Tab位置の長押し)
+        //    小指で長押ししたまま押すので、よく使うキーは人差し指・中指の列に置く
         //    右手 = ウィンドウの移動・サイズ。矢印の形で I=最大化 J/L=左右スナップ K=元に戻す(Win+↓) ,=最小化、
-        //      U/O=別モニタへ、Y=縦に最大化、P=Win+↑(スナップ中は 1/4 に縮めてスナップアシストを出す)、
-        //      H=スナップレイアウト、-=全画面(F11)
-        //    左手 = デスクトップ。W/R=仮想デスクトップ切替、Q/Z=仮想デスクトップの作成/削除、E=タスクビュー、
-        //      D=デスクトップ表示
-        //    親指 = スタート
+        //      U/O=別モニタへ、Y=縦に最大化、H=スナップレイアウト、-=全画面(F11)、
+        //      .=Win+↑(スナップ中は 1/4 に縮める)
+        //    左手 = 仮想デスクトップ。右手の J/K/L と同じく S/F=前/次、D=タスクビュー、E=デスクトップ表示、T/G=作成/削除
+        //    親指 = Space の位置がスタート、Backspace の位置が Esc(スナップ後の候補を閉じる)。Enter はそのまま Enter(候補を選ぶ)
         layer_5 {
             bindings = <
-&trans  &kp RC(RG(D))   &kp RC(RG(LEFT))  &kp RG(TAB)  &kp RC(RG(RIGHT))  &trans                &kp RS(RG(UP))  &kp RS(RG(LEFT))  &win_max      &kp RS(RG(RIGHT))  &kp RG(UP)  &trans
-&trans  &trans          &trans            &kp LG(D)    &trans             &trans                &kp RG(Z)       &kp RG(LEFT)      &kp RG(DOWN)  &kp RG(RIGHT)      &kp F11     &trans
-&trans  &kp RC(RG(F4))  &trans            &trans       &trans             &trans                &trans          &trans            &win_min      &trans             &trans      &trans
-        &trans  &trans  &trans  &trans  &kp LGUI  &trans      &trans  &kp LGUI                                              &trans  &trans
+&trans  &trans  &trans            &kp LG(D)     &trans             &kp RC(RG(D))                &kp RS(RG(UP))  &kp RS(RG(LEFT))  &win_max      &kp RS(RG(RIGHT))  &trans      &trans
+&trans  &trans  &kp RC(RG(LEFT))  &kp RG(TAB)   &kp RC(RG(RIGHT))  &kp RC(RG(F4))               &kp RG(Z)       &kp RG(LEFT)      &kp RG(DOWN)  &kp RG(RIGHT)      &kp F11     &trans
+&trans  &trans  &trans            &trans        &trans             &trans                       &trans          &trans            &win_min      &kp RG(UP)         &trans      &trans
+        &trans  &trans  &trans  &trans  &kp LGUI  &trans      &kp ESC  &trans                                             &trans  &trans
             >;
         };
 
@@ -392,16 +392,17 @@
         };
 
         // 10: Mac版 L5(ウィンドウ操作は Rectangle の「推奨」ショートカット前提)
-        //     P=上半分、最小化=⌘M、スナップレイアウトの位置=アプリExposé、タスクビューの位置=Mission Control、
+        //     .=上半分、最小化=⌘M、スナップレイアウトの位置=アプリExposé、タスクビューの位置=Mission Control、
         //     デスクトップ表示=F11、スタートの位置=アプリ一覧(⌃⌥⌘A。システム設定で割り当てる)
         //     仮想デスクトップの作成/削除は Mac に対応するショートカットが無いので無効
+        //     Backspace の位置の Esc は、Mac モード本体(7)の Mac Backspace に隠されるのでここにも置く
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
-&trans  &none   &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &trans                &kp LC(LA(LS(UP)))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(RET))   &kp LC(LA(LG(RIGHT)))  &kp LC(LA(UP))  &trans
-&trans  &trans  &trans        &kp F11     &trans         &trans                &kp LC(DOWN)        &kp LC(LA(LEFT))      &kp LC(LA(BSPC))  &kp LC(LA(RIGHT))      &kp LC(LG(F))   &trans
-&trans  &none   &trans        &trans      &trans         &trans                &trans              &trans                &kp LG(M)         &trans                 &trans          &trans
-        &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &trans      &trans  &kp LC(LA(LG(A)))                                            &trans  &trans
+&trans  &trans  &trans        &kp F11     &trans         &none                     &kp LC(LA(LS(UP)))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(RET))   &kp LC(LA(LG(RIGHT)))  &trans          &trans
+&trans  &trans  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &none                     &kp LC(DOWN)        &kp LC(LA(LEFT))      &kp LC(LA(BSPC))  &kp LC(LA(RIGHT))      &kp LC(LG(F))   &trans
+&trans  &trans  &trans        &trans      &trans         &trans                    &trans              &trans                &kp LG(M)         &kp LC(LA(UP))         &trans          &trans
+        &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &trans      &kp ESC  &trans                                           &trans  &trans
             >;
         };
 
