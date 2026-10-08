@@ -334,13 +334,13 @@
         //    右手 = ウィンドウの移動・サイズ。矢印の形で I=最大化 J/L=左右スナップ K=元に戻す(Win+↓) ,=最小化、
         //      U/O=別モニタへ、Y=縦に最大化、H=スナップレイアウト、-=全画面(F11)、
         //      M=Esc(スナップ後の候補を閉じる)、.=Win+↑(スナップ中は 1/4 に縮める)
-        //    左手 = 仮想デスクトップ。D/G=前/次、F=タスクビュー、R/V=作成/削除、T=デスクトップ表示
+        //    左手 = 仮想デスクトップ。右手の J/K/L と同じく S/F=前/次、D=タスクビュー、E=デスクトップ表示、T/G=作成/削除
         //    親指 = Space の位置がスタート。Enter はそのまま Enter(スナップ後の候補を選ぶ)
         layer_5 {
             bindings = <
-&trans  &trans  &trans  &trans            &kp RC(RG(D))   &kp LG(D)                    &kp RS(RG(UP))  &kp RS(RG(LEFT))  &win_max      &kp RS(RG(RIGHT))  &trans      &trans
-&trans  &trans  &trans  &kp RC(RG(LEFT))  &kp RG(TAB)     &kp RC(RG(RIGHT))            &kp RG(Z)       &kp RG(LEFT)      &kp RG(DOWN)  &kp RG(RIGHT)      &kp F11     &trans
-&trans  &trans  &trans  &trans            &kp RC(RG(F4))  &trans                       &trans          &kp ESC           &win_min      &kp RG(UP)         &trans      &trans
+&trans  &trans  &trans            &kp LG(D)     &trans             &kp RC(RG(D))                &kp RS(RG(UP))  &kp RS(RG(LEFT))  &win_max      &kp RS(RG(RIGHT))  &trans      &trans
+&trans  &trans  &kp RC(RG(LEFT))  &kp RG(TAB)   &kp RC(RG(RIGHT))  &kp RC(RG(F4))               &kp RG(Z)       &kp RG(LEFT)      &kp RG(DOWN)  &kp RG(RIGHT)      &kp F11     &trans
+&trans  &trans  &trans            &trans        &trans             &trans                       &trans          &kp ESC           &win_min      &kp RG(UP)         &trans      &trans
         &trans  &trans  &trans  &trans  &kp LGUI  &trans      &trans  &trans                                              &trans  &trans
             >;
         };
@@ -398,9 +398,9 @@
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
-&trans  &trans  &trans  &trans        &none        &kp F11                     &kp LC(LA(LS(UP)))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(RET))   &kp LC(LA(LG(RIGHT)))  &trans          &trans
-&trans  &trans  &trans  &kp LC(LEFT)  &kp LC(UP)   &kp LC(RIGHT)               &kp LC(DOWN)        &kp LC(LA(LEFT))      &kp LC(LA(BSPC))  &kp LC(LA(RIGHT))      &kp LC(LG(F))   &trans
-&trans  &trans  &trans  &trans        &none        &trans                      &trans              &trans                &kp LG(M)         &kp LC(LA(UP))         &trans          &trans
+&trans  &trans  &trans        &kp F11     &trans         &none                     &kp LC(LA(LS(UP)))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(RET))   &kp LC(LA(LG(RIGHT)))  &trans          &trans
+&trans  &trans  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &none                     &kp LC(DOWN)        &kp LC(LA(LEFT))      &kp LC(LA(BSPC))  &kp LC(LA(RIGHT))      &kp LC(LG(F))   &trans
+&trans  &trans  &trans        &trans      &trans         &trans                    &trans              &trans                &kp LG(M)         &kp LC(LA(UP))         &trans          &trans
         &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &trans      &trans  &trans                                            &trans  &trans
             >;
         };
