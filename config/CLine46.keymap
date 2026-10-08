@@ -395,13 +395,14 @@
         //     .=上半分、最小化=⌘M、スナップレイアウトの位置=アプリExposé、タスクビューの位置=Mission Control、
         //     デスクトップ表示=F11、スタートの位置=アプリ一覧(⌃⌥⌘A。システム設定で割り当てる)
         //     仮想デスクトップの作成/削除は Mac に対応するショートカットが無いので無効
+        //     Backspace の位置の Esc は、Mac モード本体(7)の Mac Backspace に隠されるのでここにも置く
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
 &trans  &trans  &trans        &kp F11     &trans         &none                     &kp LC(LA(LS(UP)))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(RET))   &kp LC(LA(LG(RIGHT)))  &trans          &trans
 &trans  &trans  &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &none                     &kp LC(DOWN)        &kp LC(LA(LEFT))      &kp LC(LA(BSPC))  &kp LC(LA(RIGHT))      &kp LC(LG(F))   &trans
 &trans  &trans  &trans        &trans      &trans         &trans                    &trans              &trans                &kp LG(M)         &kp LC(LA(UP))         &trans          &trans
-        &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &trans      &trans  &trans                                            &trans  &trans
+        &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &trans      &kp ESC  &trans                                           &trans  &trans
             >;
         };
 
