@@ -114,14 +114,25 @@
         };
 
         // Windows: 一発で画面全体に最大化(ウィンドウメニュー Alt+Space → 最大化(X))。
-        // Win+↑ と違い、スナップ中でも最大化ボタンと同じ動きになる
+        // Win+↑ と違い、スナップ中でも最大化ボタンと同じ動きになる。
+        // そのウィンドウで初めて開くメニューは表示が遅いので、0.8 秒待ってから X を押す
         win_max: win_max {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             display-name = "Maximize";
             wait-ms = <30>;
             tap-ms = <30>;
-            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 400>, <&macro_tap &kp X>;
+            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 800>, <&macro_tap &kp X>;
+        };
+
+        // Windows: 最小化(ウィンドウメニュー Alt+Space → 最小化(N))。Win+↓ と違い、最大化中でも一発で最小化する
+        win_min: win_min {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            display-name = "Minimize";
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 800>, <&macro_tap &kp N>;
         };
 
         // 左ダブルクリック(Layer 2 右手)
@@ -143,6 +154,19 @@
             bindings = <&mo>, <&to_layer_0>;
 
             #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            require-prior-idle-ms = <150>;
+        };
+
+        // 左 Tab: タップは App Tab、長押しはレイヤー(L5)。&lt と同じ誤爆対策を入れる
+        //   使い方: &lt_app_tab 5 0(2つ目の値は使わない)
+        lt_app_tab: lt_app_tab {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Layer Tap App Tab";
+            bindings = <&mo>, <&app_tab>;
+
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
             tapping-term-ms = <200>;
             require-prior-idle-ms = <150>;
         };
@@ -252,15 +276,16 @@
     keymap {
         compatible = "zmk,keymap";
 
-        // 長押しは左右で鏡写し(同じ位置なら同じレイヤー)
-        //   Space / Enter = L2、A / 右Tab位置 = L5、Z / "/" = L3、英数 / 右Shift位置 = L4、かな / 🔍 = L1
+        // 長押しは左右でほぼ同じ位置に置く
+        //   Space / Enter = L2、左Tab / 右Tab位置 = L5、"/" = L3、英数 / 右Shift位置 = L4、かな / 🔍 = L1
+        //   左Tab のタップは App Tab。A と Z は誤爆するので長押しなし(Z は Google 日本語入力の z+h / l とぶつかる)
         //   右Tab位置のタップはかな、右Shift位置のタップは英数(左親指の英数・かなと同じキー)
         //   🔍 のタップは Windows では PowerToys Run(Ctrl+Alt+Space)、Mac では Spotlight
         default_layer {
             bindings = <
-&kp ESC      &kp Q         &kp W  &kp E      &kp R        &kp T                                           &kp Y      &kp U       &kp I      &kp O    &kp P          &kp ESC
-&app_tab     &lt 5 A       &kp S  &kp D      &kp F        &kp G                                           &kp H      &kp J       &kp K      &kp L    &kp MINUS      &lt 5 LANG1
-&kp LSHIFT   &lt 3 Z       &kp X  &kp C      &kp V        &kp B                                           &kp N      &kp M       &kp COMMA  &kp DOT  &lt 3 SLASH    &lt 4 LANG2
+&kp ESC          &kp Q   &kp W  &kp E      &kp R        &kp T                                           &kp Y      &kp U       &kp I      &kp O    &kp P          &kp ESC
+&lt_app_tab 5 0  &kp A   &kp S  &kp D      &kp F        &kp G                                           &kp H      &kp J       &kp K      &kp L    &kp MINUS      &lt 5 LANG1
+&kp LSHIFT       &kp Z   &kp X  &kp C      &kp V        &kp B                                           &kp N      &kp M       &kp COMMA  &kp DOT  &lt 3 SLASH    &lt 4 LANG2
              &kp LGUI      &kp LALT   &kp LCTRL    &lt 4 LANG2  &lt 2 SPACE  &lt 1 LANG1    &kp BSPC   &lt 2 RET                         &kp DEL  &lt 1 LC(LA(SPACE))
             >;
         };
@@ -275,11 +300,12 @@
         };
 
         // 2: 矢印・マウス。左手: Q/A=文書の先頭/末尾、W/R=Home/End、T/G=PgUp/PgDn、X/V=単語左/右
+        //    右手の / = スクショ(PrtSc)
         MOUSE {
             bindings = <
 &trans  &kp LC(HOME)  &kp HOME   &kp UP    &kp END    &kp PG_UP                &mod_click LCTRL &kp RS(RC(TAB))  &trans    &kp RC(TAB)  &trans      &trans
 &trans  &kp LC(END)   &kp LEFT   &kp DOWN  &kp RIGHT  &kp PG_DN                &mod_click LSHIFT &mkp LCLK        &mkp MCLK &mkp RCLK    &trans      &trans
-&trans  &trans        &kp LC(LEFT) &trans  &kp LC(RIGHT) &trans                &dbl_click       &mkp MB4         &trans    &mkp MB5     &trans      &trans
+&trans  &trans        &kp LC(LEFT) &trans  &kp LC(RIGHT) &trans                &dbl_click       &mkp MB4         &trans    &mkp MB5     &kp PSCRN   &trans
         &trans  &trans     &trans    &trans     &trans   &trans      &trans     &trans                                 &trans       &trans
             >;
         };
@@ -287,40 +313,44 @@
         SCROLL {
             bindings = <
 &bt BT_CLR      &trans  &os_win  &trans  &trans  &trans                        &trans  &bt BT_SEL 3  &ind_con      &bt BT_SEL 4  &trans  &trans
-&trans          &os_mac &trans   &trans  &trans  &trans                        &out OUT_TOG  &bt BT_SEL 1  &bt BT_SEL 0  &bt BT_SEL 2  &trans  &trans
+&trans          &os_mac &trans   &trans  &trans  &trans                        &out OUT_TOG  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &trans  &trans
 &trans          &trans  &trans   &trans  &trans  &bootloader                   &bootloader  &bt BT_PRV    &ind_bat      &bt BT_NXT    &trans  &trans
                 &trans  &trans   &trans  &trans  &trans  &trans      &studio_unlock  &trans                        &trans        &trans
             >;
         };
 
-        // 4: メディア・ファンクション。右手内側の列は Y=クリップボード履歴 H=スクショ N=タスクマネージャー
+        // 4: メディア・ファンクション。右手内側の列は Y=エクスプローラー N=タスクマネージャー
         layer_4 {
             bindings = <
-&trans  &kp RG(L)  &kp C_REWIND  &kp C_STOP  &kp C_FF    &kp C_VOL_UP                     &kp LG(V)        &kp F7  &kp F8  &kp F9  &kp F12  &trans
-&trans  &kp CAPS   &kp C_PREV    &kp C_PP    &kp C_NEXT  &kp C_VOL_DN                     &kp PSCRN        &kp F4  &kp F5  &kp F6  &kp F11  &trans
+&trans  &kp RG(L)  &kp C_REWIND  &kp C_STOP  &kp C_FF    &kp C_VOL_UP                     &kp LG(E)        &kp F7  &kp F8  &kp F9  &kp F12  &trans
+&trans  &kp CAPS   &kp C_PREV    &kp C_PP    &kp C_NEXT  &kp C_VOL_DN                     &trans           &kp F4  &kp F5  &kp F6  &kp F11  &trans
 &trans  &kp RG(H)  &kp F21       &kp LA(F4)  &kp F20     &kp C_MUTE                       &kp LC(LS(ESC))  &kp F1  &kp F2  &kp F3  &kp F10  &trans
         &trans     &trans        &trans      &trans      &trans    &trans      &trans     &trans                  &trans  &trans
             >;
         };
 
-        // 5: ウィンドウ操作。左右とも同じ配置(左 WER/SDF/XCV/TGB = 右 UIO/JKL/M,./YHN)
-        //    矢印の形で 最大化/左右スナップ/元に戻す、上段の左右=仮想デスクトップ、下段の左右=別モニタへ、
-        //    中段の間=タスクビュー、内側の列=全画面/デスクトップ表示/スナップレイアウト、親指=スタート/縦に最大化
-        //    P=Win+↑(Windows 専用。スナップ中は 1/4 に縮めてスナップアシストを出す)
+        // 5: ウィンドウ操作(左Tab / 右Tab位置の長押し)
+        //    右手 = ウィンドウの移動・サイズ。矢印の形で I=最大化 J/L=左右スナップ K=元に戻す(Win+↓) ,=最小化、
+        //      U/O=別モニタへ、Y=縦に最大化、P=Win+↑(スナップ中は 1/4 に縮めてスナップアシストを出す)、
+        //      H=スナップレイアウト、-=全画面(F11)
+        //    左手 = デスクトップ。W/R=仮想デスクトップ切替、Q/Z=仮想デスクトップの作成/削除、E=タスクビュー、
+        //      D=デスクトップ表示
+        //    親指 = スタート
         layer_5 {
             bindings = <
-&trans  &trans  &kp RC(RG(LEFT))    &win_max      &kp RC(RG(RIGHT))    &kp F11                   &kp F11    &kp RC(RG(LEFT))    &win_max      &kp RC(RG(RIGHT))    &kp RG(UP)  &trans
-&trans  &trans  &kp RG(LEFT)        &kp RG(DOWN)  &kp RG(RIGHT)        &kp LG(D)                 &kp LG(D)  &kp RG(LEFT)        &kp RG(DOWN)  &kp RG(RIGHT)        &trans  &trans
-&trans  &trans  &kp RS(RG(LEFT))    &kp RG(TAB)   &kp RS(RG(RIGHT))    &kp RG(Z)                 &kp RG(Z)  &kp RS(RG(LEFT))    &kp RG(TAB)   &kp RS(RG(RIGHT))    &trans  &trans
-        &trans  &trans  &trans  &trans  &kp LGUI  &kp RS(RG(UP))      &kp RS(RG(UP))  &kp LGUI                                              &trans  &trans
+&trans  &kp RC(RG(D))   &kp RC(RG(LEFT))  &kp RG(TAB)  &kp RC(RG(RIGHT))  &trans                &kp RS(RG(UP))  &kp RS(RG(LEFT))  &win_max      &kp RS(RG(RIGHT))  &kp RG(UP)  &trans
+&trans  &trans          &trans            &kp LG(D)    &trans             &trans                &kp RG(Z)       &kp RG(LEFT)      &kp RG(DOWN)  &kp RG(RIGHT)      &kp F11     &trans
+&trans  &kp RC(RG(F4))  &trans            &trans       &trans             &trans                &trans          &trans            &win_min      &trans             &trans      &trans
+        &trans  &trans  &trans  &trans  &kp LGUI  &trans      &trans  &kp LGUI                                              &trans  &trans
             >;
         };
 
+        // 6: オートマウス(トラックボールを動かすと入る)
         layer_6 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans     &trans     &trans     &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                        &trans  &mkp LCLK  &mkp MCLK  &mkp RCLK  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &mkp MB4   &trans     &mkp MB5   &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans     &trans     &trans     &trans  &trans
         &trans  &trans  &trans  &trans  &trans  &trans      &trans    &trans                          &trans     &trans
             >;
         };
@@ -337,38 +367,41 @@
             >;
         };
 
-        // 8: Mac版 L2(矢印・Home/End・文書の先頭/末尾・マウス用修飾・戻る/進む)
+        // 8: Mac版 L2(矢印・Home/End・文書の先頭/末尾・マウス用修飾・戻る/進む・スクショ)
         // Safari はマウスの戻る/進むボタンに反応しないので ⌘[ / ⌘] を送る
         mac_nav_layer {
             display-name = "Mac L2";
             bindings = <
 &trans  &kp LG(UP)    &mac_home  &mac_up    &mac_end   &trans                  &mod_click LGUI &trans  &trans  &trans  &trans            &trans
 &trans  &kp LG(DOWN)  &mac_left  &mac_down  &mac_right &trans                  &trans      &trans  &trans  &trans  &trans            &trans
-&trans  &trans        &kp LA(LEFT) &trans   &kp LA(RIGHT) &trans               &trans      &kp LG(LBKT)  &trans  &kp LG(RBKT)  &trans    &trans
+&trans  &trans        &kp LA(LEFT) &trans   &kp LA(RIGHT) &trans               &trans      &kp LG(LBKT)  &trans  &kp LG(RBKT)  &kp LG(LS(N5))  &trans
         &trans  &trans     &trans     &trans     &trans  &trans      &trans   &trans                          &trans  &trans
             >;
         };
 
-        // 9: Mac版 L4(ロック・音声入力・明るさ・Alt+F4・履歴・スクショ・強制終了。Enter の位置=同じアプリの次のウィンドウ ⌘`)
+        // 9: Mac版 L4(ロック・音声入力・明るさ・Alt+F4・Finder・強制終了。Enter の位置=同じアプリの次のウィンドウ ⌘`)
+        //    Y = Finder の検索ウィンドウ(⌥⌘Space)
         mac_fn_layer {
             display-name = "Mac L4";
             bindings = <
-&trans  &kp LC(LG(Q))   &trans       &trans  &trans       &trans                    &kp LC(LA(LG(V)))  &trans   &trans  &trans  &trans  &trans
-&trans  &trans          &trans       &trans  &trans       &trans                    &kp LG(LS(N5))     &mac_f4  &trans  &trans  &trans  &trans
+&trans  &kp LC(LG(Q))   &trans       &trans  &trans       &trans                    &kp LA(LG(SPACE))  &trans   &trans  &trans  &trans  &trans
+&trans  &trans          &trans       &trans  &trans       &trans                    &trans             &mac_f4  &trans  &trans  &trans  &trans
 &trans  &mac_dictation  &kp C_BRI_DN &kp LG(Q)  &kp C_BRI_UP &trans                 &kp LG(LA(ESC))    &trans   &trans  &trans  &trans  &trans
         &trans          &trans       &trans  &trans       &trans  &trans    &trans  &kp LG(GRAVE)               &trans  &trans
             >;
         };
 
-        // 10: Mac版 L5(ウィンドウ操作は Rectangle の「推奨」ショートカット前提。左右同じ配置)
-        //     スナップの位置=アプリExposé、タスクビューの位置=Mission Control、スタートの位置=アプリ一覧(⌃⌥⌘A。システム設定で割り当てる)
+        // 10: Mac版 L5(ウィンドウ操作は Rectangle の「推奨」ショートカット前提)
+        //     P=上半分、最小化=⌘M、スナップレイアウトの位置=アプリExposé、タスクビューの位置=Mission Control、
+        //     デスクトップ表示=F11、スタートの位置=アプリ一覧(⌃⌥⌘A。システム設定で割り当てる)
+        //     仮想デスクトップの作成/削除は Mac に対応するショートカットが無いので無効
         mac_win_layer {
             display-name = "Mac L5";
             bindings = <
-&trans  &trans  &kp LC(LEFT)            &kp LC(LA(RET))    &kp LC(RIGHT)            &kp LC(LG(F))          &kp LC(LG(F))  &kp LC(LEFT)            &kp LC(LA(RET))    &kp LC(RIGHT)            &none   &trans
-&trans  &trans  &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))        &kp F11                &kp F11        &kp LC(LA(LEFT))        &kp LC(LA(BSPC))   &kp LC(LA(RIGHT))        &trans  &trans
-&trans  &trans  &kp LC(LA(LG(LEFT)))    &kp LC(UP)         &kp LC(LA(LG(RIGHT)))    &kp LC(DOWN)           &kp LC(DOWN)   &kp LC(LA(LG(LEFT)))    &kp LC(UP)         &kp LC(LA(LG(RIGHT)))    &trans  &trans
-        &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &kp LC(LA(LS(UP)))      &kp LC(LA(LS(UP)))  &kp LC(LA(LG(A)))                                            &trans  &trans
+&trans  &none   &kp LC(LEFT)  &kp LC(UP)  &kp LC(RIGHT)  &trans                &kp LC(LA(LS(UP)))  &kp LC(LA(LG(LEFT)))  &kp LC(LA(RET))   &kp LC(LA(LG(RIGHT)))  &kp LC(LA(UP))  &trans
+&trans  &trans  &trans        &kp F11     &trans         &trans                &kp LC(DOWN)        &kp LC(LA(LEFT))      &kp LC(LA(BSPC))  &kp LC(LA(RIGHT))      &kp LC(LG(F))   &trans
+&trans  &none   &trans        &trans      &trans         &trans                &trans              &trans                &kp LG(M)         &trans                 &trans          &trans
+        &trans  &trans  &trans  &trans  &kp LC(LA(LG(A)))  &trans      &trans  &kp LC(LA(LG(A)))                                            &trans  &trans
             >;
         };
 
@@ -383,13 +416,13 @@
             >;
         };
 
-        // 12: Mac版 L6(戻る/進むを ⌘[ / ⌘] に)
+        // 12: Mac版 L6(今は差し替えるキーが無いので空。レイヤー番号をずらさないために残している)
         mac_mouse_layer {
             display-name = "Mac L6";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans        &trans  &trans        &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans        &trans  &trans        &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &kp LG(LBKT)  &trans  &kp LG(RBKT)  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans        &trans  &trans        &trans  &trans
         &trans  &trans  &trans  &trans  &trans  &trans      &trans    &trans                                      &trans  &trans
             >;
         };

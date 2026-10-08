@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CLine46 キーマップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f3f4f6; --panel:#ffffff; --ink:#1d2330; --muted:#636b7a; --line:#d5d9e0;
+  --cap:#fbfbfc; --cap-edge:#c9ced7; --cap-shadow:#b9bfca; --ghost:#eceef2; --ghost-ink:#b3b9c4;
+  --win:#2a64a8; --win-soft:#e3edf8; --mac:#b4561a; --mac-soft:#fbeadc; --mode:#2f7d4f; --mode-soft:#e1f2e7; --held:#fff4c2; --held-edge:#b58900;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#15181e; --panel:#1d2129; --ink:#e7eaf0; --muted:#98a0ae; --line:#2e3440;
+    --cap:#262b35; --cap-edge:#3a414e; --cap-shadow:#0e1014; --ghost:#1b1f26; --ghost-ink:#4a5261;
+    --win:#78a9e6; --win-soft:#1d2d42; --mac:#f09a5c; --mac-soft:#3a2518; --mode:#6fc893; --mode-soft:#1a3326; --held:#3a3212; --held-edge:#d9b43a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15181e; --panel:#1d2129; --ink:#e7eaf0; --muted:#98a0ae; --line:#2e3440;
+  --cap:#262b35; --cap-edge:#3a414e; --cap-shadow:#0e1014; --ghost:#1b1f26; --ghost-ink:#4a5261;
+  --win:#78a9e6; --win-soft:#1d2d42; --mac:#f09a5c; --mac-soft:#3a2518; --mode:#6fc893; --mode-soft:#1a3326; --held:#3a3212; --held-edge:#d9b43a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;font-size:14px;line-height:1.6;padding:24px 16px 48px}
+.wrap{max-width:1020px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-size:24px;margin:0;text-wrap:balance;letter-spacing:.01em}
+.lead{color:var(--muted);margin:4px 0 0}
+.bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg button{font:inherit;font-weight:500;border:0;background:transparent;color:var(--muted);padding:6px 16px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"].w{background:var(--win);color:#fff}
+.seg button[aria-pressed="true"].m{background:var(--mac);color:#fff}
+button:focus-visible{outline:2px solid var(--win);outline-offset:2px}
+.switch{display:flex;gap:10px;align-items:center;background:var(--mode-soft);color:var(--ink);border-radius:10px;padding:10px 14px;font-size:13px}
+.switch b{color:var(--mode)}
+kbd{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;background:var(--panel);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer;text-align:left;line-height:1.35}
+.tabs button small{display:block;color:var(--muted);font-size:11px}
+.tabs button[aria-selected="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.board{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+.board h2{margin:0;font-size:17px}
+.board .how{margin:0;color:var(--muted);font-size:13px}
+.halves{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:center}
+.half{display:grid;grid-template-columns:repeat(7,62px);grid-auto-rows:58px;gap:5px}
+.key{position:relative;background:var(--cap);border:1px solid var(--cap-edge);border-radius:7px;box-shadow:0 2px 0 var(--cap-shadow);padding:5px 5px 4px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden}
+.key .t{font-family:"JetBrains Mono","IBM Plex Sans JP",monospace;font-weight:700;font-size:13px;line-height:1.15;overflow-wrap:anywhere}
+.key .t.jp{font-family:"IBM Plex Sans JP",system-ui,sans-serif;font-size:12px}
+.key .s{font-size:9.5px;color:var(--muted);line-height:1.2;margin-top:2px}
+.key.ghost{background:var(--ghost);border-style:dashed;box-shadow:none}
+.key.ghost .t{color:var(--ghost-ink);font-weight:500;font-size:11px}
+.key.chg{background:var(--mac-soft);border-color:var(--mac)}
+.key.chg .t{color:var(--mac)}
+.key.chg::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--mac)}
+.key.mode{background:var(--mode-soft);border-color:var(--mode)}
+.key.mode .t{color:var(--mode)}
+.key.hold .s{color:var(--win)}
+.key.held{background:var(--held);border:2px solid var(--held-edge);box-shadow:none}
+.key.held .t{color:var(--ink)}
+.key.held .s{color:var(--held-edge);font-weight:700}
+.sw.held{background:var(--held);border-color:var(--held-edge)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:14px;height:14px;border-radius:4px;border:1px solid var(--cap-edge);background:var(--cap)}
+.sw.chg{background:var(--mac-soft);border-color:var(--mac)}
+.sw.mode{background:var(--mode-soft);border-color:var(--mode)}
+.sw.ghost{background:var(--ghost);border-style:dashed}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.note h3{margin:0 0 6px;font-size:14px}
+.note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:13px}
+.note li{max-width:62ch}
+@media (max-width:520px){.half{grid-template-columns:repeat(7,44px);grid-auto-rows:50px;gap:4px}.key .t{font-size:11px}.key .t.jp{font-size:10px}.key .s{font-size:8px}}
+.led{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.led h2{margin:0;font-size:17px}
+.led p{margin:0;color:var(--muted);font-size:13px}
+.ledgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.ledgrid h3{margin:0 0 6px;font-size:14px}
+.ledrow{display:flex;gap:10px;align-items:flex-start;font-size:13px;padding:4px 0}
+.dot{flex:none;width:14px;height:14px;border-radius:50%;margin-top:4px;box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--line)}
+.dot.b{background:#2f7bf5}.dot.y{background:#f2c418}.dot.r{background:#e5432f}.dot.g{background:#2fb35a}.dot.c{background:#22c3d6}.dot.p{background:#c23fd6}
+.fix{background:var(--win-soft);border-radius:10px;padding:12px 14px;font-size:13px}
+.fix ol{margin:4px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>CLine46 キーマップ</h1>
+    <p class="lead">Windows と Mac を同じ指の動きで使うための配列です。上の切替で、各レイヤーが Mac モードでどう変わるかを確認できます。</p>
+  </header>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="表示するモード">
+      <button id="mode-win" class="w" aria-pressed="true">Windows モード</button>
+      <button id="mode-mac" class="m" aria-pressed="false">Mac モード</button>
+    </div>
+    <div class="switch">モード切替: <kbd>/?</kbd> 長押し ＋ <kbd>W</kbd> の位置 = <b>Windows</b>、<kbd>A</kbd> の位置 = <b>Mac</b>(電源を切っても保持)</div>
+  </div>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+
+  <section class="board" aria-live="polite">
+    <h2 id="lname"></h2>
+    <p class="how" id="lhow"></p>
+    <div class="halves">
+      <div class="half" id="left"></div>
+      <div class="half" id="right"></div>
+    </div>
+    <div class="legend">
+      <span><i class="sw"></i>そのまま使うキー</span>
+      <span><i class="sw chg"></i>Mac モードで中身が変わるキー</span>
+      <span><i class="sw held"></i>このレイヤーを呼ぶために長押ししているキー(2つある場合は左右どちらか一方でOK)</span>
+      <span><i class="sw mode"></i>モード切替キー</span>
+      <span><i class="sw ghost"></i>下のレイヤー(Layer 0)のキーになる</span>
+    </div>
+  </section>
+
+  <section class="led" aria-labelledby="led-h">
+    <h2 id="led-h">LED の色の意味</h2>
+    <p>LED はずっと点いているのではなく、電源を入れたとき・BT の枠を切り替えたとき・下のキーを押したときに一瞬光ります。</p>
+    <div class="ledgrid">
+      <div>
+        <h3>接続状態(右手)<span style="font-weight:400;color:var(--muted)"> ― <kbd>/?</kbd>長押し＋<kbd>I</kbd> で表示</span></h3>
+        <div class="ledrow"><i class="dot b"></i><span><b>青</b>: 選んでいる BT の枠が相手とつながっている</span></div>
+        <div class="ledrow"><i class="dot y"></i><span><b>黄</b>: 選んでいる枠が空。新しい相手とのペアリング待ち</span></div>
+        <div class="ledrow"><i class="dot r"></i><span><b>赤</b>: ペアリング済みだが相手が見つからない(相手の BT がオフ、または相手側で登録解除済み)</span></div>
+        <h3 style="margin-top:10px">左手</h3>
+        <div class="ledrow"><i class="dot b"></i><span><b>青</b>: 右手とつながっている</span></div>
+        <div class="ledrow"><i class="dot r"></i><span><b>赤</b>: 右手と切れている</span></div>
+      </div>
+      <div>
+        <h3>電池残量(左右それぞれ)<span style="font-weight:400;color:var(--muted)"> ― <kbd>/?</kbd>長押し＋<kbd>,</kbd> で表示</span></h3>
+        <div class="ledrow"><i class="dot g"></i><span><b>緑</b>: 30% 以上</span></div>
+        <div class="ledrow"><i class="dot y"></i><span><b>黄</b>: 20〜30%</span></div>
+        <div class="ledrow"><i class="dot r"></i><span><b>赤</b>: 20% 未満。10% 未満になると定期的に赤く点滅</span></div>
+        <div class="ledrow"><i class="dot p"></i><span><b>紫</b>: 電池が検出できない</span></div>
+        <p style="margin-top:8px">電源を入れたときは「電池残量 → 接続状態」の順に光ります。最初の黄色は電池、2回目の黄色は空の枠です。</p>
+      </div>
+    </div>
+    <div class="fix">
+      <b>Mac や Windows とつながらなくなったら</b>
+      <ol>
+        <li><kbd>/?</kbd>長押しのまま <kbd>L</kbd>(BT 0)・<kbd>K</kbd>(BT 1)・<kbd>J</kbd>(BT 2)・<kbd>U</kbd>(BT 3)・<kbd>O</kbd>(BT 4)を順に押し、<b>青</b>に光る枠を探す</li>
+        <li>青がなければ、パソコン側の Bluetooth 設定で CLine46 を「登録解除」する</li>
+        <li>キーボードで<b>赤</b>の枠を選び、<kbd>/?</kbd>長押し＋<kbd>Esc</kbd>(BT CLR)で空にする(黄になる)</li>
+        <li>パソコンの Bluetooth 一覧に出る CLine46 に「接続」</li>
+      </ol>
+      <p style="margin-top:6px">BT CLR は選んでいる枠だけを消します。ほかのパソコンで使っている枠(青)では押さないでください。</p>
+    </div>
+  </section>
+
+  <div class="notes">
+    <div class="note">
+      <h3>パソコン側の前提設定</h3>
+      <ul>
+        <li>Windows: PowerToys Run の起動キーを Ctrl+Alt+Space に変更(🔍 で起動)</li>
+        <li>Mac: 修飾キーの入れ替えはしない(Control / Command は初期設定のまま)</li>
+        <li>Rectangle を「推奨」ショートカットで常駐させる</li>
+        <li>音声入力のショートカットは「Control キーを2回押す」</li>
+        <li>クリップボード履歴は macOS 26 以降の Spotlight を使う</li>
+        <li>iPhone / iPad も修飾キーの入れ替えなしで Mac モードが使える</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3>Mac モードで指の動きごと変わるもの</h3>
+      <ul>
+        <li>Ctrl の位置 + C / V / Z / S … は ⌘ + C / V / Z / S …</li>
+        <li>Ctrl + ← → は ⌥ + ← →(単語移動)、Ctrl + BkSp は単語削除</li>
+        <li>Alt を押したまま Tab 連打で ⌘Tab のアプリ切替</li>
+        <li>Home / End は行頭・行末、Ctrl + Home / End は文書の先頭・末尾</li>
+        <li>DYAStudio では Layer 7〜13 が Mac 用の差し替えレイヤー</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+// 位置: 0-11 上段, 12-23 中段, 24-35 下段(各行 左6+右6), 36-41 左親指, 42-45 右親指
+// 値: [表記, 補足, 種別] 種別 h=長押し m=モード切替
+const L = [
+  {name:"Layer 0 基本", how:"通常時の配列。長押しでレイヤーが切り替わります(Space / Enter = L2、Tab / 右Tab位置 = L5、/? = L3、英数 / 右Shift位置 = L4、かな / 🔍 = L1)。A と Z は誤爆防止のため長押しなしです。", keys:{
+    0:["Esc"],1:["Q"],2:["W"],3:["E"],4:["R"],5:["T"],6:["Y"],7:["U"],8:["I"],9:["O"],10:["P"],11:["Esc"],
+    12:["Tab","Ctrl+Tab → Alt+Tab / 長押し L5","h"],13:["A"],14:["S"],15:["D"],16:["F"],17:["G"],18:["H"],19:["J"],20:["K"],21:["L"],22:["- _"],23:["かな","長押し L5","h"],
+    24:["⇧"],25:["Z"],26:["X"],27:["C"],28:["V"],29:["B"],30:["N"],31:["M"],32:[", <"],33:[". >"],34:["/ ?","長押し L3","h"],35:["英数","長押し L4","h"],
+    36:["Win"],37:["Alt"],38:["Ctrl"],39:["英数","長押し L4","h"],40:["Space","長押し L2","h"],41:["かな","長押し L1","h"],
+    42:["BkSp"],43:["Enter","長押し L2","h"],44:["Del"],45:["🔍","PowerToys Run / 長押し L1","h"]},
+   mac:{36:["⌃ Ctrl","Win の位置"],38:["⌘ Cmd","Ctrl の位置"],37:["⌥ Opt","",0],
+    12:["Tab","Alt+Tab → ⌘Tab / 長押し L5","h"],42:["BkSp","Ctrl+ → 単語削除"],44:["Del","Ctrl+ → 単語削除"],45:["🔍","Spotlight / 長押し L1","h"]}},
+  {name:"Layer 1 記号・数字", how:"かな または 🔍 を長押ししている間。Del の位置は絵文字パレットです。", keys:{
+    0:["$"],11:["^"],12:["|"],23:["-"],24:["~"],35:["/"],
+    1:[";"],2:[":"],3:["("],4:[")"],5:["@"],6:["!"],7:["7"],8:["8"],9:["9"],10:["="],
+    13:["'"],14:['"'],15:["["],16:["]"],17:["#"],18:["%"],19:["4"],20:["5"],21:["6"],22:["+"],
+    25:["\\"],26:["`"],27:["{"],28:["}"],29:["&"],30:["0"],31:["1"],32:["2"],33:["3"],34:["*"],44:["絵文字","Win+."]}, mac:{44:["絵文字","⌃⌘Space"]}},
+  {name:"Layer 2 矢印・マウス", how:"Space または Enter を長押ししている間。左手は Q/A=文書の先頭/末尾、W/R=Home/End、T/G=PgUp/PgDn、X/V=単語移動。右手はトラックボール用のクリックと修飾キー、/? の位置はスクショです。", keys:{
+    1:["文頭","Ctrl+Home"],2:["Home"],3:["↑"],4:["End"],5:["PgUp"],13:["文末","Ctrl+End"],14:["←"],15:["↓"],16:["→"],17:["PgDn"],26:["単語←","Ctrl+←"],28:["単語→","Ctrl+→"],
+    6:["Ctrl","押すと修飾+クリック"],7:["前のタブ","Ctrl⇧Tab"],9:["次のタブ","Ctrl+Tab"],
+    18:["⇧","押すと修飾+クリック"],19:["左クリック"],20:["中クリック"],21:["右クリック"],
+    30:["ダブル","クリック"],31:["戻る"],33:["進む"],34:["スクショ","PrtSc"]},
+   mac:{3:["↑","Ctrl+ → ⌥↑"],14:["←","Ctrl+ → 単語"],15:["↓","Ctrl+ → ⌥↓"],16:["→","Ctrl+ → 単語"],
+    2:["行頭","⌘← / Ctrl+ → 先頭"],4:["行末","⌘→ / Ctrl+ → 末尾"],26:["単語←","⌥←"],28:["単語→","⌥→"],1:["文頭","⌘↑"],13:["文末","⌘↓"],
+    6:["⌘","押すと修飾+クリック"],31:["戻る","⌘["],33:["進む","⌘]"],34:["スクショ","⌘⇧5"],7:["前のタブ","⌃⇧Tab",0],9:["次のタブ","⌃Tab",0]}},
+  {name:"Layer 3 Bluetooth・モード切替", how:"/? を長押ししている間。W と A の位置でモードを切り替えます。BT 0〜4 は接続先の枠で、押すと LED で接続状態が光ります(色の意味は下)。", keys:{
+    0:["BT CLR","選択中の枠を消去"],8:["接続状態","LED表示"],18:["USB/BT","出力切替"],32:["電池残量","LED表示"],29:["書込モード","左手"],30:["書込モード","右手"],2:["Windows","モード切替","m"],13:["Mac","モード切替","m"],
+    7:["BT 3"],9:["BT 4"],19:["BT 2"],20:["BT 1"],21:["BT 0"],31:["BT 前"],33:["BT 次"],42:["Studio Unlock"]}, mac:{}},
+  {name:"Layer 4 メディア・ファンクション", how:"英数 または 右Shift位置(英数)を長押ししている間。右手内側の列は Y=エクスプローラー、N=タスクマネージャー。クリップボード履歴は Win+V を直接押します。", keys:{
+    1:["ロック","Win+L"],2:["⏪"],3:["■"],4:["⏩"],5:["音量+"],13:["Caps"],14:["⏮"],15:["⏯"],16:["⏭"],17:["音量−"],
+    25:["音声入力","Win+H"],26:["明るさ−","F21"],27:["アプリ終了","Alt+F4"],28:["明るさ+","F20"],29:["ミュート"],
+    6:["エクスプローラー","Win+E"],30:["タスクマネージャー","Ctrl⇧Esc"],
+    7:["F7"],8:["F8"],9:["F9"],10:["F12"],19:["F4"],20:["F5"],21:["F6"],22:["F11"],31:["F1"],32:["F2"],33:["F3"],34:["F10"]},
+   mac:{1:["ロック","⌃⌘Q"],25:["音声入力","⌃ を2回"],26:["明るさ−","画面の明るさ"],28:["明るさ+","画面の明るさ"],19:["F4","Alt+F4 → ⌘Q"],27:["アプリ終了","⌘Q"],
+    6:["Finder","⌥⌘Space"],30:["強制終了","⌘⌥Esc"],43:["次の窓","同じアプリ ⌘`"]}},
+  {name:"Layer 5 ウィンドウ操作", how:"Tab または 右Tab位置(かな)を長押ししている間。右手はウィンドウの移動・サイズ(矢印の形で I=最大化、J/L=左右、K=元に戻す、,=最小化)、左手は仮想デスクトップとタスクビューです。Mac は Rectangle の推奨ショートカットで動きます。", keys:{
+    1:["デスクトップ作成","Ctrl+Win+D"],2:["前のデスクトップ","Ctrl+Win+←"],3:["タスクビュー","Win+Tab"],4:["次のデスクトップ","Ctrl+Win+→"],
+    15:["デスクトップ表示","Win+D"],25:["デスクトップ削除","Ctrl+Win+F4"],
+    6:["縦に最大化","⇧Win+↑"],7:["左のモニタへ","⇧Win+←"],8:["最大化","Alt+Space→X"],9:["右のモニタへ","⇧Win+→"],10:["上へスナップ","Win+↑(Win専用)"],
+    18:["スナップ","Win+Z"],19:["左半分","Win+←"],20:["元に戻す","Win+↓"],21:["右半分","Win+→"],22:["全画面","F11"],
+    32:["最小化","Alt+Space→N"],
+    40:["スタート","Win"],43:["スタート","Win"]},
+   mac:{1:["(なし)","Mac では無効"],2:["前の操作スペース","⌃←"],3:["全ウィンドウ","⌃↑"],4:["次の操作スペース","⌃→"],
+    15:["デスクトップ表示","F11"],25:["(なし)","Mac では無効"],
+    6:["高さを最大化","⌃⌥⇧↑"],7:["前のディスプレイ","⌃⌥⌘←"],8:["最大化","⌃⌥↩"],9:["次のディスプレイ","⌃⌥⌘→"],10:["上半分","⌃⌥↑"],
+    18:["アプリExposé","⌃↓"],19:["左半分","⌃⌥←"],20:["元に戻す","⌃⌥⌫"],21:["右半分","⌃⌥→"],22:["フルスクリーン","⌃⌘F"],
+    32:["最小化","⌘M"],
+    40:["アプリ一覧","⌃⌥⌘A(要設定)"],43:["アプリ一覧","⌃⌥⌘A(要設定)"]}},
+  {name:"Layer 6 マウス", how:"トラックボールを動かすと自動で入るマウスボタンのレイヤー(止めてから 0.5 秒で戻る。時間は DYAStudio で設定)。", keys:{
+    19:["左クリック"],20:["中クリック"],21:["右クリック"]}, mac:{}}
+];
+
+// 左手: 行0-2 は列1-6、親指は列2-7。右手: 行0-2 は列2-7、親指は列1,2,5,6
+const LEFT=[], RIGHT=[];
+for(let r=0;r<3;r++){for(let c=0;c<6;c++){LEFT.push([r*12+c,r+1,c+1]);RIGHT.push([r*12+6+c,r+1,c+2]);}}
+for(let i=0;i<6;i++)LEFT.push([36+i,4,i+2]);
+[[42,1],[43,2],[44,5],[45,6]].forEach(([p,c])=>RIGHT.push([p,4,c]));
+
+const HELD={1:[41,45],2:[40,43],3:[34],4:[39,35],5:[12,23]};
+let mode="win", layer=0;
+try{const s=JSON.parse(localStorage.getItem("cline46-view")||"{}");if(s.mode)mode=s.mode;if(Number.isInteger(s.layer))layer=s.layer;}catch(e){}
+if(/^#?layer[0-6]$/.test(location.hash))layer=+location.hash.slice(-1);
+
+function isJp(t){return /[぀-ヿ一-鿿]/.test(t)||t.length>5}
+function cap(pos){
+  const lay=L[layer], base=L[0].keys[pos];
+  let k=lay.keys[pos], cls="key", changed=false;
+  if(mode==="mac"&&lay.mac[pos]){const m=lay.mac[pos];changed=m[2]!==0;k=[m[0],m[1]];}
+  const el=document.createElement("div");
+  el.id=`layer${layer}-key-${(base?base[0].replace(/[^A-Za-z0-9]/g,""):"")||"pos"}-${pos}`;
+  el.title=(k?k[0]:"")+(base?`(${base[0]} の位置)`:"");
+  if((HELD[layer]||[]).includes(pos)){
+    const b=(mode==="mac"&&L[0].mac[pos])||base;
+    el.className="key held";el.title=b[0]+" を長押し中";
+    el.innerHTML=`<span class="t${isJp(b[0])?" jp":""}"></span><span class="s">長押し中</span>`;
+    el.firstChild.textContent=b[0];return el;
+  }
+  if(!k){el.className="key ghost";el.innerHTML=`<span class="t">${layer===0?"":base?base[0]:""}</span>`;return el;}
+  if(changed)cls+=" chg";if(k[2]==="m")cls+=" mode";if(k[2]==="h")cls+=" hold";
+  el.className=cls;
+  const t=document.createElement("span");t.className="t"+(isJp(k[0])?" jp":"");t.textContent=k[0];el.appendChild(t);
+  if(k[1]){const s=document.createElement("span");s.className="s";s.textContent=k[1];el.appendChild(s);}
+  return el;
+}
+function draw(){
+  document.getElementById("mode-win").setAttribute("aria-pressed",mode==="win");
+  document.getElementById("mode-mac").setAttribute("aria-pressed",mode==="mac");
+  document.querySelectorAll("#tabs button").forEach((b,i)=>b.setAttribute("aria-selected",i===layer));
+  document.getElementById("lname").textContent=L[layer].name+(mode==="mac"?"(Mac モード)":"(Windows モード)");
+  document.getElementById("lhow").textContent=L[layer].how;
+  for(const [id,list] of [["left",LEFT],["right",RIGHT]]){
+    const box=document.getElementById(id);box.innerHTML="";
+    list.forEach(([p,r,c])=>{const el=cap(p);el.style.gridRow=r;el.style.gridColumn=c;box.appendChild(el);});
+  }
+  try{localStorage.setItem("cline46-view",JSON.stringify({mode,layer}));}catch(e){}
+}
+const tabs=document.getElementById("tabs");
+L.forEach((l,i)=>{const b=document.createElement("button");b.id="tab-"+i;b.setAttribute("role","tab");
+  b.innerHTML=`<small>Layer ${i}</small>${l.name.replace(/^Layer \d+ /,"")}`;
+  b.onclick=()=>{layer=i;draw();};tabs.appendChild(b);});
+document.getElementById("mode-win").onclick=()=>{mode="win";draw();};
+document.getElementById("mode-mac").onclick=()=>{mode="mac";draw();};
+draw();
+</script>
+</body>
+</html>
