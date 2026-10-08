@@ -95,6 +95,9 @@
         ;
         wakeup-source;
         interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        // チャタリング対策(既定は押す・離すとも 5ms。同じ文字が2回入ったり、押している Shift が一瞬外れたりしていた)
+        debounce-press-ms = <10>;
+        debounce-release-ms = <20>;
     };
 
     trackball_listener: trackball_listener {
