@@ -63,7 +63,7 @@ Layer 5 は 左 Tab または 右 Tab の位置(かな)の長押しです。右�
 | . | Win + ↑ | Rectangle: 上半分 |
 | H | Win + Z(スナップレイアウト) | アプリExposé(Control + ↓) |
 | - | F11(全画面) | フルスクリーン(Control + ⌘ + F) |
-| M | Esc(スナップ後の候補を閉じる) | Esc |
+| Backspace の位置 | Esc(スナップ後の候補を閉じる) | Esc |
 | S / F | Ctrl + Win + ← / →(仮想デスクトップ切替) | Control + ← / →(操作スペース切替) |
 | D | Win + Tab(タスクビュー) | Mission Control(4本指スワイプアップと同じ。Control + ↑) |
 | T / G | Ctrl + Win + D / F4(仮想デスクトップの作成 / 削除) | なし |
