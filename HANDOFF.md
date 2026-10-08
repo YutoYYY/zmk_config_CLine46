@@ -31,7 +31,7 @@
 | `config/CLine46.keymap` | キーマップ(ファーム既定) |
 | `src/behaviors/behavior_os_mode.c` | Windows / Mac モードの切替。状態は本体に保存される |
 | `src/behaviors/behavior_app_tab.c` | Ctrl の位置 + Tab で、Windows では Alt+Tab、Mac では ⌘+Tab を送る |
-| `src/keymap_migrate.c` | `KEYMAP_REV`(現在 **5**)。値を上げたファームを初めて起動したときだけ、保存キーマップを消す(BT ペアリングと OS モードは残る) |
+| `src/keymap_migrate.c` | `KEYMAP_REV`(現在 **6**)。値を上げたファームを初めて起動したときだけ、保存キーマップを消す(BT ペアリングと OS モードは残る) |
 | `docs/keymap.html` | キーマップページ(全レイヤーを Windows / Mac で切り替えて表示)。GitHub Pages(main の /docs)で https://yutoyyy.github.io/zmk_config_CLine46/keymap.html に公開する。**キーマップを変えたらここも更新する** |
 | `docs/mac-mode.md` | Windows / Mac モードの説明と初回設定 |
 | `build.yaml`, `.github/workflows/build.yml` | GitHub Actions のビルド設定 |
@@ -44,7 +44,8 @@
 | #4 長押しの左右鏡写しとウィンドウ操作(`claude/window-symmetric`) | マージ済み |
 | #3 キー使用回数の記録(`claude/typing-heatmap`) | マージ済み(2026-10-08、`claude/debounce` 経由) |
 | `claude/debounce` | チャタリング対策(下記)と HANDOFF.md。PR は作らず、2026-10-08 に main へ直接マージ |
-| `claude/l5-window-review` | L5 の見直し(右手に移動・サイズを集約、最小化、仮想デスクトップの作成・削除)、L5 の長押しを A → 左 Tab、L2 / に PrtSc、L4 Y をエクスプローラー、L6 の戻る / 進むを削除、最大化の待ち時間 0.8 秒。KEYMAP_REV 5。2026-10-08 に実機で確認し、main へ直接マージ。**今は main = 左右の実機のファーム** |
+| `claude/l5-reach` | L5 を押しやすさで再配置(左手を人差し指・中指の列へ、右手に M = Esc、. = Win+↑、Enter は透過)。KEYMAP_REV 6。実機確認待ち |
+| `claude/l5-window-review` | L5 の見直し(右手に移動・サイズを集約、最小化、仮想デスクトップの作成・削除)、L5 の長押しを A → 左 Tab、L2 / に PrtSc、L4 Y をエクスプローラー、L6 の戻る / 進むを削除、最大化の待ち時間 0.8 秒。KEYMAP_REV 5。2026-10-08 に実機で確認し、main へ直接マージ |
 | #2 L3 の BT 枠の入れ替え(`claude/swap-monitor-keys`) | 2026-10-08 にマージせず閉じた。並びが実機と違っていた(J=BT0 / K=BT1 / L=BT2)。BT の並びは DYAStudio の保存分で運用している |
 | `firmware` | ビルド済みファームの置き場 |
 
@@ -90,16 +91,16 @@ L7 に置いたキーは、L1〜L6 の同じ位置のキーを隠すので注意
 - **L2 右手**: 修飾キー付きクリック(Ctrl / Shift)、ダブルクリック、戻る / 進む、タブ切替、/ = PrtSc(Mac は ⌘⇧5)。
 - **L3**: W = Windows モード、A = Mac モード(状態は本体に保存)、B / N = その手の書き込みモード、H = USB / BT 切替、I = 接続ランプ、, = 電池ランプ、Backspace の位置 = Studio Unlock。
 - **L4**: Y = エクスプローラー(Mac は ⌥⌘Space)、N = タスクマネージャー、H は空き。クリップボード履歴は Win+V を直接押す。ほかに音量・メディア操作・F1〜F12、F20 / F21 = 画面の明るさ。
-- **L5**: 鏡写しはやめ、右手 = ウィンドウの移動・サイズ、左手 = 仮想デスクトップ。
-  - 右手: I = 最大化、J / L = 左右にスナップ、K = Win+↓、, = 最小化、U / O = 別のモニタへ、Y = 縦に最大化、P = Win+↑、H = スナップレイアウト、- = F11
-  - 左手: W / R = 仮想デスクトップの切替、Q / Z = 仮想デスクトップの作成 / 削除(Mac は無効)、E = タスクビュー、D = デスクトップ表示
-  - 親指(Space / Enter の位置)= スタート
+- **L5**: 鏡写しはやめ、右手 = ウィンドウの移動・サイズ、左手 = 仮想デスクトップ。小指で長押ししたまま押すので、よく使うキーは人差し指・中指の列に置く(小指の隣の Q/A/Z 列は押しづらい)。
+  - 右手: I = 最大化、J / L = 左右にスナップ、K = Win+↓、, = 最小化、U / O = 別のモニタへ、Y = 縦に最大化、H = スナップレイアウト、- = F11、M = Esc、. = Win+↑。P と N は空き
+  - 左手: D / G = 仮想デスクトップの前 / 次、F = タスクビュー、R / V = 作成 / 削除(Mac は無効)、T = デスクトップ表示
+  - 親指: Space の位置 = スタート。Enter の位置は透過(スナップ後の候補を Enter で選び、M の Esc で閉じる)
   - 最大化 / 最小化は Alt+Space → X / N のマクロ。そのウィンドウで初めて開くメニューは表示が遅いので、間に 0.8 秒待つ
 - **L6 オートマウス**: 左 / 中 / 右クリックだけ(戻る / 進むは 2026-10-08 に削除。Mac 用の L12 は空だが番号を保つために残す)。切れるまでの時間はファームではなく、DYAStudio の Temp Layer「Deactivation Delay」= 500ms で決まる(本体に保存)。
 
 ### ファーム既定とのずれ(KEYMAP_REV を上げる前に必ず照合)
 
-KEYMAP_REV 5 で、それまでのずれ(L0 の Z の長押し、L3 の BT 枠の並び)はファーム既定を本体に合わせて解消した。
+KEYMAP_REV 5 / 6 で、それまでのずれ(L0 の Z の長押し、L3 の BT 枠の並び)はファーム既定を本体に合わせて解消した。
 DYAStudio で本体の配列を変えたら、ここに書き足す。
 
 | 場所 | 本体(正) | ファーム既定(main) |
