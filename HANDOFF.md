@@ -32,7 +32,7 @@
 | `src/behaviors/behavior_os_mode.c` | Windows / Mac モードの切替。状態は本体に保存される |
 | `src/behaviors/behavior_app_tab.c` | Ctrl の位置 + Tab で、Windows では Alt+Tab、Mac では ⌘+Tab を送る |
 | `src/keymap_migrate.c` | `KEYMAP_REV`(現在 **5**)。値を上げたファームを初めて起動したときだけ、保存キーマップを消す(BT ペアリングと OS モードは残る) |
-| `docs/keymap.html` | キーマップページ(全レイヤーを Windows / Mac で切り替えて表示)。GitHub Pages で公開する。**キーマップを変えたらここも更新する** |
+| `docs/keymap.html` | キーマップページ(全レイヤーを Windows / Mac で切り替えて表示)。GitHub Pages(main の /docs)で https://yutoyyy.github.io/zmk_config_CLine46/keymap.html に公開する。**キーマップを変えたらここも更新する** |
 | `docs/mac-mode.md` | Windows / Mac モードの説明と初回設定 |
 | `build.yaml`, `.github/workflows/build.yml` | GitHub Actions のビルド設定 |
 
@@ -43,8 +43,8 @@
 | #1 Mac モード(`claude/mac-mode`) | マージ済み。ブランチには BT 枠を入れ替えて戻しただけのコミットが2つ残っている |
 | #4 長押しの左右鏡写しとウィンドウ操作(`claude/window-symmetric`) | マージ済み |
 | #3 キー使用回数の記録(`claude/typing-heatmap`) | マージ済み(2026-10-08、`claude/debounce` 経由) |
-| `claude/debounce` | チャタリング対策(下記)と HANDOFF.md。PR は作らず、2026-10-08 に main へ直接マージ。**今は main = 左右の実機のファーム** |
-| `claude/l5-window-review` | L5 の見直し(右手に移動・サイズを集約、最小化、仮想デスクトップの作成・削除)、L5 の長押しを A → 左 Tab、L2 / に PrtSc、L4 Y をエクスプローラー、L6 の戻る / 進むを削除、最大化の待ち時間 0.8 秒。KEYMAP_REV 5。実機確認待ち |
+| `claude/debounce` | チャタリング対策(下記)と HANDOFF.md。PR は作らず、2026-10-08 に main へ直接マージ |
+| `claude/l5-window-review` | L5 の見直し(右手に移動・サイズを集約、最小化、仮想デスクトップの作成・削除)、L5 の長押しを A → 左 Tab、L2 / に PrtSc、L4 Y をエクスプローラー、L6 の戻る / 進むを削除、最大化の待ち時間 0.8 秒。KEYMAP_REV 5。2026-10-08 に実機で確認し、main へ直接マージ。**今は main = 左右の実機のファーム** |
 | #2 L3 の BT 枠の入れ替え(`claude/swap-monitor-keys`) | 2026-10-08 にマージせず閉じた。並びが実機と違っていた(J=BT0 / K=BT1 / L=BT2)。BT の並びは DYAStudio の保存分で運用している |
 | `firmware` | ビルド済みファームの置き場 |
 
@@ -137,7 +137,8 @@ DYAStudio で本体の配列を変えたら、ここに書き足す。
 - **ローカルでビルドする場合**(参考): west + Zephyr SDK 0.16.8、`setuptools<70`、`-DZMK_EXTRA_MODULES=<リポジトリ直下>`、右手は `-S studio-rpc-usb-uart`。キーマップだけ変えても反映されないことがあるので、`-p` を付けて再ビルドする。
 - **社用 PC でのローカルビルド**: Docker で `zmkfirmware/zmk-build-arm:3.5` を使う(west や SDK は入れていない)。west のワークスペースは Docker ボリューム `zmk-cline46-ws` に置いてある。初回は約 5GB をダウンロードする。uf2 は `cliine46/firmware-local/` に出力する。
 - **社用 PC からのプッシュ**: この PC の GitHub ログインは KobayashiYut0 で、フォークへの書き込み権限がない。リモート URL を `https://YutoYYY@github.com/...` にして、このリポジトリだけ YutoYYY でプッシュする。
-- **書き込み**: L3 の B(左手)/ N(右手)で書き込みモードにし、現れたドライブに uf2 をコピーする。`KEYMAP_REV` を変えていなければ、DYAStudio で保存した配列は残る。
+- **書き込み**: L3 の B(左手)/ N(右手)で書き込みモードにし、現れたドライブに uf2 をコピーする。
+  - 2026-10-08、左手は L3 + B で書き込みモードに入らず(LED が赤になって普通に再起動した)、XIAO のリセットボタンを素早く 2 回押して書き込んだ。原因は未調査。`KEYMAP_REV` を変えていなければ、DYAStudio で保存した配列は残る。
 
 ## キー使用回数の記録(PR #3)
 
