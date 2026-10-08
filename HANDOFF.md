@@ -44,7 +44,7 @@
 | #4 長押しの左右鏡写しとウィンドウ操作(`claude/window-symmetric`) | マージ済み |
 | #3 キー使用回数の記録(`claude/typing-heatmap`) | マージ済み(2026-10-08、`claude/debounce` 経由) |
 | `claude/debounce` | チャタリング対策(下記)と HANDOFF.md。PR は作らず、2026-10-08 に main へ直接マージ |
-| `claude/l5-reach` | L5 を押しやすさで再配置(左手は S/D/F を右手の J/K/L に合わせる、右手は . = Win+↑、親指の Backspace の位置 = Esc、Enter は透過)。KEYMAP_REV 8。実機確認待ち |
+| `claude/l5-reach` | L5 を押しやすさで再配置(左手は S/D/F を右手の J/K/L に合わせる、右手は . = Win+↑、親指の Backspace の位置 = Esc、Enter は透過)。KEYMAP_REV 8。2026-10-08 に実機で確認し、main へ直接マージ。**今は main = 右手の実機のファーム**(左手はキーマップ変更のみなので REV 5 のファームのまま) |
 | `claude/l5-window-review` | L5 の見直し(右手に移動・サイズを集約、最小化、仮想デスクトップの作成・削除)、L5 の長押しを A → 左 Tab、L2 / に PrtSc、L4 Y をエクスプローラー、L6 の戻る / 進むを削除、最大化の待ち時間 0.8 秒。KEYMAP_REV 5。2026-10-08 に実機で確認し、main へ直接マージ |
 | #2 L3 の BT 枠の入れ替え(`claude/swap-monitor-keys`) | 2026-10-08 にマージせず閉じた。並びが実機と違っていた(J=BT0 / K=BT1 / L=BT2)。BT の並びは DYAStudio の保存分で運用している |
 | `firmware` | ビルド済みファームの置き場 |
@@ -140,6 +140,7 @@ DYAStudio で本体の配列を変えたら、ここに書き足す。
 - **社用 PC でのローカルビルド**: Docker で `zmkfirmware/zmk-build-arm:3.5` を使う(west や SDK は入れていない)。west のワークスペースは Docker ボリューム `zmk-cline46-ws` に置いてある。初回は約 5GB をダウンロードする。uf2 は `cliine46/firmware-local/` に出力する。
 - **社用 PC からのプッシュ**: この PC の GitHub ログインは KobayashiYut0 で、フォークへの書き込み権限がない。リモート URL を `https://YutoYYY@github.com/...` にして、このリポジトリだけ YutoYYY でプッシュする。
 - **書き込み**: L3 の B(左手)/ N(右手)で書き込みモードにし、現れたドライブに uf2 をコピーする。
+  - キーマップは右手(セントラル)が持つので、キーマップだけの変更なら右手だけ書き込めばよい。
   - 2026-10-08、左手は L3 + B で書き込みモードに入らず(LED が赤になって普通に再起動した)、XIAO のリセットボタンを素早く 2 回押して書き込んだ。原因は未調査。`KEYMAP_REV` を変えていなければ、DYAStudio で保存した配列は残る。
 
 ## キー使用回数の記録(PR #3)
