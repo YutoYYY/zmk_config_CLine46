@@ -88,24 +88,32 @@ kbd{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;backgroun
 .dot.b{background:#2f7bf5}.dot.y{background:#f2c418}.dot.r{background:#e5432f}.dot.g{background:#2fb35a}.dot.c{background:#22c3d6}.dot.p{background:#c23fd6}
 .fix{background:var(--win-soft);border-radius:10px;padding:12px 14px;font-size:13px}
 .fix ol{margin:4px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
-/* 小さい表示(?mini またはアプリとしてインストールしたウィンドウ): キーとタブだけ。キーはウィンドウ幅に合わせて伸び縮みする */
-.mini body{padding:6px}
-.mini .wrap{max-width:none;flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px}
+/* 小さい表示(?mini またはアプリとしてインストールしたウィンドウ): キーとタブだけ。
+   キーの大きさ --k はウィンドウの幅と高さの両方に収まるように JS(fit)で決める。縦長のウィンドウでは左手の下に右手を並べる */
+:root{--k:50px}
+.mini body{padding:6px;overflow:hidden}
+.mini .wrap{max-width:none;display:grid;grid-template-columns:auto 1fr;gap:6px}
 .mini header,.mini .switch,.mini #lname,.mini #lhow,.mini .legend,.mini .led,.mini .notes,.mini .lw{display:none}
-.mini .seg{padding:2px;border-radius:8px}
-.mini .seg button{padding:2px 10px;font-size:12px;border-radius:6px}
-.mini .tabs{gap:4px}
-.mini .tabs button{font-size:12px;padding:2px 8px;border-radius:6px}
-.mini .tabs button small{display:inline;margin-right:4px;font-size:12px}
-.mini .board{flex-basis:100%;padding:8px;border-radius:10px;gap:0}
-.mini .halves{flex-wrap:nowrap;gap:0 4%}
-.mini .half{flex:1;grid-template-columns:repeat(7,1fr);grid-auto-rows:auto;gap:4px;container-type:inline-size}
-.mini .key{aspect-ratio:62/54;padding:2px;border-radius:6px}
-.mini .key .t{font-size:clamp(9px,2.9cqi,18px)}
-.mini .key .t.jp{font-size:clamp(8px,2.6cqi,16px)}
-.mini .key .s{font-size:clamp(7px,2cqi,12px)}
-.mini .key.ghost .t{font-size:clamp(8px,2.4cqi,15px)}
-@container (max-width:330px){.mini .key .s{display:none}}
+.mini .seg{padding:2px;border-radius:8px;height:100%}
+.mini .seg button{padding:0 12px;font-size:13px;border-radius:6px}
+.mini .tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;container-type:inline-size}
+.mini .tabs button{min-height:44px;padding:3px 4px;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.2;overflow:hidden}
+.mini .tabs button small{font-family:"JetBrains Mono",monospace;font-size:17px;font-weight:700;color:inherit;line-height:1.1}
+.mini .tabs .tn{font-size:11px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.mini .tabs button[aria-selected="true"]{background:var(--ink);color:var(--panel);box-shadow:none}
+.mini .tabs button[aria-selected="true"] .tn{color:var(--panel)}
+@container (max-width:380px){.mini .tabs .tn{display:none}}
+@media (max-width:520px){.mini .wrap{grid-template-columns:1fr}.mini .seg{height:36px;justify-self:start}}
+.mini .board{grid-column:1/-1;padding:8px;border-radius:10px;gap:0}
+.mini .halves{flex-wrap:nowrap;gap:0 calc(var(--k)*.5)}
+.mini .board.stack .halves{flex-direction:column;align-items:center;gap:calc(var(--k)*.3) 0}
+.mini .half{grid-template-columns:repeat(7,var(--k));grid-auto-rows:calc(var(--k)*.87);gap:4px}
+.mini .key{padding:2px;border-radius:6px}
+.mini .key .t{font-size:calc(var(--k)*.22)}
+.mini .key .t.jp{font-size:calc(var(--k)*.2)}
+.mini .key .s{font-size:max(8px,calc(var(--k)*.15))}
+.mini .key.ghost .t{font-size:calc(var(--k)*.19)}
+.mini.tiny .key .s{display:none}
 </style>
 </head>
 <body>
@@ -304,13 +312,29 @@ const mini=new URLSearchParams(location.search).has("mini")||matchMedia("(displa
 if(mini)document.documentElement.classList.add("mini");
 const tabs=document.getElementById("tabs");
 L.forEach((l,i)=>{const b=document.createElement("button");b.id="tab-"+i;b.setAttribute("role","tab");
-  b.innerHTML=`<small><span class="lw">Layer </span>${i}</small>${l.name.replace(/^Layer \d+ /,"")}`;
+  const n=l.name.replace(/^Layer \d+ /,"");b.title=n;
+  b.innerHTML=`<small><span class="lw">Layer </span>${i}</small><span class="tn">${n}</span>`;
   b.onclick=()=>{layer=i;draw();};
   if(mini)b.onmouseenter=()=>{if(layer!==i){layer=i;draw();}};
   tabs.appendChild(b);});
 document.getElementById("mode-win").onclick=()=>{mode="win";draw();};
 document.getElementById("mode-mac").onclick=()=>{mode="mac";draw();};
+// 小さい表示: キーの大きさを、左右に並べる/上下に並べるのうち大きく表示できる方で決める
+function fit(){
+  const b=document.querySelector(".board"), cs=getComputedStyle(b);
+  const W=document.documentElement.clientWidth-12-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-2;
+  const H=innerHeight-b.getBoundingClientRect().top-6-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-4;
+  const g=4, r=.87;
+  const side=Math.min((W-12*g)/14.5,(H-3*g)/(4*r));
+  const stack=Math.min((W-6*g)/7,(H-6*g)/(8*r+.3));
+  const st=stack>side*1.15;  // 左右に並べる方が見慣れているので、上下はかなり大きくなるときだけ
+  const k=Math.max(16,Math.min(110,Math.floor(st?stack:side)));
+  b.classList.toggle("stack",st);
+  document.documentElement.style.setProperty("--k",k+"px");
+  document.documentElement.classList.toggle("tiny",k<44);
+}
 draw();
+if(mini){fit();addEventListener("resize",fit);document.fonts.ready.then(fit);}
 </script>
 </body>
 </html>
