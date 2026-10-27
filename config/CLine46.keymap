@@ -115,24 +115,25 @@
 
         // Windows: 一発で画面全体に最大化(ウィンドウメニュー Alt+Space → 最大化(X))。
         // Win+↑ と違い、スナップ中でも最大化ボタンと同じ動きになる。
-        // そのウィンドウで初めて開くメニューは表示が遅いので、0.8 秒待ってから X を押す
+        // そのウィンドウで初めて開くメニューは表示が遅い(新しいウィンドウを別デスクトップへ移した直後など)ので、
+        // 1.5 秒待ってから X を 0.1 秒押す(0.8 秒 / 0.03 秒では取りこぼしてメニューが開いたままになった)
         win_max: win_max {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             display-name = "Maximize";
             wait-ms = <30>;
-            tap-ms = <30>;
-            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 800>, <&macro_tap &kp X>;
+            tap-ms = <100>;
+            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 1500>, <&macro_tap &kp X>;
         };
 
-        // Windows: 最小化(ウィンドウメニュー Alt+Space → 最小化(N))。Win+↓ と違い、最大化中でも一発で最小化する
+        // Windows: 最小化(ウィンドウメニュー Alt+Space → 最小化(N))。Win+↓ と違い、最大化中でも一発で最小化する。待ち時間は win_max と同じ
         win_min: win_min {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             display-name = "Minimize";
             wait-ms = <30>;
-            tap-ms = <30>;
-            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 800>, <&macro_tap &kp N>;
+            tap-ms = <100>;
+            bindings = <&macro_tap &kp LA(SPACE)>, <&macro_wait_time 1500>, <&macro_tap &kp N>;
         };
 
         // 左ダブルクリック(Layer 2 右手)
