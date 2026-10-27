@@ -20,8 +20,10 @@
 #define MAC 7
 
 // 長押しキー(A・Z など)の誤爆対策: 直前のキーから 150ms 以内に押したら長押し判定をせず、すぐ文字にする
+// quick-tap: 1回タップして 200ms 以内にもう一度押したまま → 長押しではなくそのキーの押しっぱなし(連打)
 &lt {
     require-prior-idle-ms = <150>;
+    quick-tap-ms = <200>;
 };
 
 &mt {
@@ -170,6 +172,7 @@
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
             require-prior-idle-ms = <150>;
+            quick-tap-ms = <200>;
         };
 
         // Windows/Mac モード切替
